@@ -1,12 +1,28 @@
 #!/usr/bin/env bash
-# setup-vim.sh — instalación y configuración de Neovim (NvChad Starter)
+
+# Colores para mejor lectura
+green="\e[32m"
+red="\e[31m"
+blue="\e[34m"
+reset="\e[0m"
+
+# Funciones de mensaje
+ok() { echo -e "${green}[✔]${reset} $1"; }
+err() { echo -e "${red}[✖]${reset} $1"; }
+msg() { echo -e "${blue}==>${reset} $1"; }
+
+# ------------------------------
+# FUNCIONES DE INSTALACIÓN
+# ------------------------------
+
+msg "Instalando Neovim y configurando NvChad Starter..."
 
 set -e
 
 echo -e "\n🧠 Instalando Neovim y configurando NvChad Starter...\n"
 
 # Dependencias básicas
-pkg install -y neovim git curl
+pkg install -y neovim
 
 # Verifica si ya existe ~/.config/nvim
 if [ -d "$HOME/.config/nvim" ]; then
@@ -29,4 +45,4 @@ git clone https://github.com/NvChad/starter ~/.config/nvim
 echo -e "\n🚀 Iniciando Neovim para completar la configuración...\n"
 nvim --headless +"Lazy sync" +qa
 
-echo -e "\n✅ NvChad Starter instalado correctamente en ~/.config/nvim\n"
+ok "\n✅ NvChad Starter instalado correctamente en ~/.config/nvim\n"
