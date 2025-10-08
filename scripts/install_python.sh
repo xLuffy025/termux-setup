@@ -1,11 +1,21 @@
 #!/bin/bash
 
+# Colores para mejor lectura
+green="\e[32m"
+red="\e[31m"
+blue="\e[34m"
+reset="\e[0m"
+
+# Funciones de mensaje
+ok() { echo -e "${green}[✔]${reset} $1"; }
+err() { echo -e "${red}[✖]${reset} $1"; }
+msg() { echo -e "${blue}==>${reset} $1"; }
+
+msg "Instslando Python dev Setup..."
 # === TERMUX PYTHON DEV SETUP ===
 pkg install -y python-pip
 
 # Crear entorno virtual global
-mkdir ~/proyecto/python 
-cd ~/proyecto/python
 python -m venv ~/.venv
 source ~/.venv/bin/activate
 
@@ -18,8 +28,7 @@ pip install ipython rich
 pip install pylint black flake8 isort autopep8 mypy
 pip install virtualenv virtualenvwrapper
 pip install aiohttp selenium
-pip install numpy matplotlib seaborn scikit-learn jupyter
-pip install typer click loguru fastapi uvicorn
+pip install typer click loguru
 
 # Guardar dependencias
 pip freeze > ~/.venv/requirements.txt
@@ -58,4 +67,4 @@ echo 'echo "🐍 Python Dev listo: usa pydev para activar el entorno."' >> ~/.zs
 # Limpiar cache
 pip cache purge
 
-echo "✅ Instalación completa. Reinicia Termux o ejecuta: source ~/.zshrc"
+ok "✅ Instalación completa. Reinicia Termux o ejecuta: source ~/.zshrc"
