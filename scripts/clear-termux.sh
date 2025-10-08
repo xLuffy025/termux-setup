@@ -1,34 +1,38 @@
 #!/data/data/com.termux/files/usr/bin/bash
-# 🧹 Script para limpiar y optimizar Termux
+set -euo pipefail
 
-echo "🧽 Limpiando caché y paquetes innecesarios..."
+echo "🔄 Actualizando repositorios..."
+pkg update -y && pkg upgrade -y
 
-# 1️⃣ Limpiar caché de paquetes de pkg/apt
+echo "🔧 Reparando paquetes (si hace falta)..."
+dpkg --configure -a || true
+apt --fix-broken install -y || true
+
+echo
+echo "🧾 Simulando autoremove (no borra nada):"
+apt -s autoremove
+
+read -p "¿Quieres ejecutar ahora 'apt autoremove -y' para eliminar los paquetes mostrados? [y/N] " resp
+if [[ "$resp" =~ ^[Yy]$ ]]; then
+  apt autoremove -y
+else
+  echo "Autoremove cancelado por usuario."
+fi
+
+echo "🧹 Limpiando caches..."
 apt clean
 apt autoclean
-apt autoremove -y
-
-# 2️⃣ Limpiar caché temporal de Termux
-rm -rf $PREFIX/var/cache/*
-rm -rf $PREFIX/tmp/*
-
-# 3️⃣ Borrar caché de pip (si usas Python)
-if command -v pip &> /dev/null; then
-    pip cache purge
+# pip cache
+if command -v pip3 >/dev/null; then
+  pip3 cache purge || true
+fi
+# npm cache
+if command -v npm >/dev/null; then
+  npm cache clean --force || true
 fi
 
-# 4️⃣ Borrar caché de npm (si usas Node.js)
-if command -v npm &> /dev/null; then
-    npm cache clean --force
-fi
+echo "✅ Limpieza completada. Espacio ahora:"
+df -h $HOME
 
-# 5️⃣ Limpiar logs antiguos (si existen)
-find $HOME -type f -name "*.log" -delete
 
-# 6️⃣ Limpiar sesión de proot-distro (sin borrar rootfs)
-if [ -d "$PREFIX/var/lib/proot-distro" ]; then
-    echo "🧱 Limpiando caché de proot-distro..."
-    rm -rf $PREFIX/var/lib/proot-distro/installed-rootfs-cache/*
-fi
 
-echo "✅ Termux limpio y optimizado."

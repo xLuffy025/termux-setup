@@ -25,12 +25,15 @@ pkg update -y && pkg upgrade -y || err "Error al actualizar paquetes"
 # ==============================================
 # 2️⃣ - INSTALAR PAQUETES BÁSICOS
 # ==============================================
+instalar_basicos(){
 msg "Instalando paquetes esenciales..."
-pkg install -y git curl wget zsh neovim vim python nodejs proot-distro openssh termux-api || err "Error al instalar paquetes básicos"
-
+pkg install -y git wget curl build-essential python nodejs openssh vim neovim tmux zsh proot-distro termux-api root-repo x11-repo unstable-repo clang make pkg-config jq unzip tar ripgrep fd tree htop rust rsync ncdu nmap net-tools socat screenfetch proot ffmpg imagenmagick openvpn neofech cowsay  || err "Error al instalar paquetes básicos"
+ok "Dependencias basicas instaladas."
+}
 # ==============================================
-# 3️⃣ - CONFIGURAR ZSH
+# 3️⃣ - CONFIGURAR ZSHH
 # ==============================================
+instalar_zsh(){
 msg "Instalando y configurando ZSH..."
 
 # Instalar Oh My Zsh
@@ -60,10 +63,13 @@ if [ -f "configs/.zshrc" ]; then
 fi
 
 chsh -s zsh || msg "No se pudo cambiar la shell por defecto."
+ok "Zsh y Oh My Zsh configurados."
+}
 
 # ==============================================
 # 4️⃣ - ENTORNOS PROOT
 # ==============================================
+instalar_distros(){
 msg "Instalando distribuciones Proot..."
 proot-distro install archlinux || true
 proot-distro install ubuntu || true
@@ -71,10 +77,12 @@ proot-distro install fedora || true
 proot-distro install debian || true
 
 ok "Proot distros instaladas."
+}
 
 # ==============================================
 # 5️⃣ - CONFIGURAR PYTHON
 # ==============================================
+instalar_python_env(){
 msg "Configurando entorno Python..."
 pip install --upgrade pip virtualenv wheel rich requests || err "Error al instalar dependencias de Python"
 
@@ -101,12 +109,13 @@ if [ -f "configs/.vimrc" ]; then
     ok "Archivo .vimrc instalado."
 fi
 
-  # Instalar NvChad`` si no existe
+# Instalar NvChad Starter si no existe
 if [ ! -d "$HOME/.config/nvim" ]; then
-    git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
-    ok "NvChad instalado."
+  echo "🌀 Instalando NvChad Starter..."
+  git clone https://github.com/NvChad/starter ~/.config/nvim --depth 1
+  ok "NvChad Starter instalado correctamente."
 else
-    ok "NvChad ya estaba instalado."
+  ok "NvChad ya estaba instalado."
 fi
 
 # ==============================================
