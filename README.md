@@ -7,4 +7,4 @@ Automatiza la instalación completa de un entorno **Termux Full**, con Zsh, Pyth
 Copia y pega este comando:
 
 ```bash
-bash <(curl -sL hhttps://github.com/xLuffy025/termux-setup/blob/main/install.sh)
+bash <(curl -sL https://github.com/xLuffy025/termux-setup/blob/main/install.sh)
