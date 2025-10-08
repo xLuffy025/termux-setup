@@ -134,10 +134,11 @@ msg "Limpiando sistema..."
 pkg autoclean && pkg clean && rm -rf ~/storage/downloads/*.deb || true
 
 if [ -f "configs/eyes.bnr" ]; then
-    cp configs/eyes.bnr ~
+    cp configs/eyes.bnr ~/eyes.bnr 
 
 ok "Instalación completa. Reinicia Termux o ejecuta:"
 echo -e "${BLUE}zsh${RESET}"
+fi
 }
 
 # ------------------------------

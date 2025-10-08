@@ -45,5 +45,27 @@ app.listen(PORT, () => {
 });
 EOF
 
+#Crear Alias en la .zshrc si usas zsh 
+
+if [ -f ~/.zshrc ]; then
+cat << 'EOF' >> ~/.zshrc
+
+# === Node.js Aliases ===
+alias noj='nose index.js'
+
+EOF
+fi 
+
+#Crea Alias en el .bashrc si usas bash
+
+if [ -f ~/.bashrc ]; then 
+cat << 'EOF' >> ~/bashrc
+
+# === Node.js Aliases ===
+alias noj='node index.js'
+
+EOF
+  fi 
+
 # Ejecutar servidor
 ok "Insatalando Node.js y creando un entorno ~/mi-proyecto-node/ se Ejecutara asi: (node index.js)"
