@@ -16,6 +16,8 @@ msg "Instslando Python dev Setup..."
 pkg install -y python-pip
 
 # Crear entorno virtual global
+mkdir -p ~/mi-proyecto-python
+cd ~/mi-proyecto-python
 python -m venv ~/.venv
 source ~/.venv/bin/activate
 

@@ -125,6 +125,7 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #Alias basicos
+alias lls='ls -la'
 alias ll='ls -lah --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
@@ -138,7 +139,6 @@ alias up='pkg update -y && pkg upgrade -y'
 
 # Alias proot-distro
 
-alias archlu='proot-distro login --user luffy05 archlinux'
 alias arch='proot-distro login archlinux'
 alias ubuntu='proot-distro login ubuntu'
 alias debian='proot-distro login debian'
