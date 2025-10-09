@@ -73,11 +73,7 @@ ok "Zsh y Oh My Zsh configurados."
 # ==============================================
 instalar_distros(){
 msg "Instalando distribuciones Proot..."
-proot-distro install archlinux || true
-proot-distro install ubuntu || true
-proot-distro install fedora || true
-proot-distro install debian || true
-
+ bash scripts/install_pr-dis.sh 
 ok "Proot distros instaladas."
 }
 

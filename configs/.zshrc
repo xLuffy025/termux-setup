@@ -159,5 +159,3 @@ alias vibrar='termux-vibrate -d 200'
 alias copiar='termux-clipboard-set'
 alias pegar='termux-clipboard-get'
 
-eval "$(ssh-agent -s)" > /dev/null
-ssh-add -l >/dev/null 2>&1 || ssh-add ~/.ssh/id_ed25519

@@ -35,7 +35,7 @@ set hlsearch
 set backspace=indent,eol,start
 set showcmd
 set showmatch
-
+set nowrap
 " =============================================================================
 "  INDENTACIÓN Y FORMATO
 " =============================================================================
@@ -51,15 +51,9 @@ set smartindent
 " NERDTree: Abrir con Ctrl + n
 nnoremap <C-n> :NERDTreeToggle<CR>
 
-function! ToggleNERDTree()
-  if exists("t:nerdtree_bufnr") && bufexists(t:nerdtree_bufnr)
-      NERDTreeClose
-  else
-      NerdTreeToggle
-  endif
-endfunction
+nnoremap <C-p> :File<CR> "Ctrl + p busca archivos (fzf)
 
-
+nnoremap <C-c> :Commentary<CR> "Ctrl + c comenta linea
 
 
 " Vim-Airline y Dracula Theme
