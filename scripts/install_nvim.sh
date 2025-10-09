@@ -22,7 +22,7 @@ set -e
 echo -e "\n🧠 Instalando Neovim y configurando NvChad Starter...\n"
 
 # Dependencias básicas
-pkg install -y neovim
+pkg install -y vim neovim
 
 # Verifica si ya existe ~/.config/nvim
 if [ -d "$HOME/.config/nvim" ]; then

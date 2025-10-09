@@ -28,10 +28,14 @@ msg "Instalando plugins ZSH..."
 git clone https://github.com/zsh-users/zsh-autosuggestions ${PLUGINS_DIR}/zsh-autosuggestions 2>/dev/null
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ${PLUGINS_DIR}/zsh-syntax-highlighting 2>/dev/null
 git clone https://github.com/marlonrichert/zsh-autocomplete ${PLUGINS_DIR}/zsh-autocomplete 2>/dev/null
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${PLUGINS_DIR}/fast-syntax-highlighting 2>/dev/null 
+
+
 
 # Instalar Powerlevel10k
 msg "Instalando tema Powerlevel10k..."
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k 2>/dev/null
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc 2>/dev/null
 
 # Copiar tu archivo .zshrc personalizado si existe en el repo
 if [ -f "configs/.zshrc" ]; then
