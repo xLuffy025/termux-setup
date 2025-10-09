@@ -1,4 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
+
 # ============================================================
 # Termux Setup Complete - Instalador principal
 # Autor: xLuffy025
@@ -38,13 +39,20 @@ instalar_basicos(){
 
 instalar_zsh(){
   msg "Instalando y configurando Zsh..."
-  bash scripts/install_zshkit.sh
+  
+  #Copia .p10k.zsh
+  if [ -f "configs/.p10k.zsh" ]; then
+    cp configs/.p10k.zsh ~/.p10k.zsh
+    ok "copiando .p10k.zsh"
+  fi
+
+  bash scripts/install_zshxit.sh
   ok "Zsh configurado."
 }
 
 instalar_distros(){
   msg "Instalando distribuciones Proot..."
-  bash scripts/install_pro-dis.sh
+  bash scripts/install_pr-dis.sh 
   ok "Proot distros instaladas."
 }
 
