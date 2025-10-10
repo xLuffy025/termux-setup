@@ -31,7 +31,7 @@ actualizar(){
 
 instalar_basicos(){
   msg "Instalando paquetes esenciales..."
-  pkg install -y git wget curl build-essential openssh proot-distro termux-api \
+  pkg install -y git wget curl zsh build-essential openssh proot-distro termux-api \
   root-repo x11-repo clang make pkg-config jq unzip tar ripgrep fd tree htop \
   rsync ncdu nmap net-tools socat screenfetch fastfetch cowsay || err "Error al instalar paquetes básicos"
   ok "Dependencias básicas instaladas."
@@ -98,18 +98,18 @@ limpiando_sistema(){
 }
 
 configurar_dotfiles(){
-  msg "Copiando scripts personalizados (dotfiles)..."
-  mkdir -p "$HOME/dotfiles"
+  msg "Copiando scripts personalizados (dotfile)..."
+  mkdir -p "$HOME/dotfile"
 
   local archivos=(
-    "dotfiles/eyes.bnr"
-    "dotfiles/clear-termux.sh"
-    "dotfiles/update.sh"
+    "dotfile/eyes.bnr"
+    "dotfile/clear-termux.sh"
+    "dotfile/update.sh"
   )
 
   for archivo in "${archivos[@]}"; do
     if [ -f "$archivo" ]; then
-      cp "$archivo" "$HOME/dotfiles/"
+      cp "$archivo" "$HOME/dotfile/"
       ok "Copiado: $(basename "$archivo")"
     else
       warn "No se encontró: $archivo"
@@ -117,11 +117,11 @@ configurar_dotfiles(){
   done
 
   chmod +x "$HOME"/dotfiles/*.sh 2>/dev/null || true
-  ok "Dotfiles instalados en ~/dotfiles"
+  ok "dotfile instalados en ~/dotfile"
   echo
   echo -e "${CYAN}Puedes ejecutar:${RESET}"
-  echo -e "  ${GREEN}bash ~/dotfiles/clear-termux.sh${RESET}"
-  echo -e "  ${GREEN}bash ~/dotfiles/upgrade.sh${RESET}"
+  echo -e "  ${GREEN}bash ~/dotfile/clear-termux.sh${RESET}"
+  echo -e "  ${GREEN}bash ~/dotfile/upgrade.sh${RESET}"
 }
 
 # ============================================================
