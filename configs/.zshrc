@@ -146,7 +146,7 @@ alias fedora='proot-distro login fedora'
 
 # banners
 
-cat ~/dotfiles/eyes.bnr
+cat ~/dotfile/eyes.bnr
 
 # history
 HISFILE=~/.zsh_history
