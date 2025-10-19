@@ -1,0 +1,5 @@
+2025-10-15 14:28 - Explora tu sistema
+2025-10-15 14:36 - Crea tu espacio de trabajo
+2025-10-15 14:43 - Manipulacion de archivo
+2025-10-15 14:44 - Juega con permisos
+2025-10-15 14:45 - Investiga tu usuario
