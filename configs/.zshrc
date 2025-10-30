@@ -83,7 +83,6 @@ plugins=(git
 	zsh-syntax-highlighting 
 	fast-syntax-highlighting 
 	zsh-autocomplete
-  git
   z 
   colored-man-pages
   command-not-found
@@ -125,10 +124,14 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #Alias basicos
+alias ll='lsd -lh --group-dirs=first'
+alias la='lsd -a --group-dirs=first'
+alias l='lsd --group-dirs=first'
+alias lla='lsd -lha --group-dirs=first'
+alias ls='lsd --group-dirs=first'
+alias cat='bat'
+
 alias lls='ls -la'
-alias ll='ls -lah --color=auto'
-alias la='ls -A'
-alias l='ls -CF'
 alias cls='clear'
 alias gs='git status'
 alias py='python'
@@ -159,3 +162,26 @@ alias vibrar='termux-vibrate -d 200'
 alias copiar='termux-clipboard-set'
 alias pegar='termux-clipboard-get'
 
+
+# === Python Dev Aliases ===
+alias venv='source ~/.venv/bin/activate'
+alias vexit='deactivate'
+alias mkvenv='python -m venv ~/.venv && source ~/.venv/bin/activate && pip install --upgrade pip'
+alias pyreq='pip freeze > requirements.txt && echo "Guardado en requirements.txt"'
+alias pydev='source ~/.venv/bin/activate && echo "🐍 Entorno Python Dev activado"'
+
+echo "🐍 Python Dev listo: usa pydev para activar el entorno."
+
+# === Node.js Aliases ===
+alias noj='nose index.js'
+
+# === Linux curso
+alias reg='~/linux_clases/registra_ejercicio.sh'
+alias pro='~/linux_clases/progreso.sh'
+alias aput='~/linux_clases/abrir_apuntes.sh'
+
+# --- Auto iniciar SSH agent y cargar clave ---
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)" > /dev/null
+  ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
+fi
