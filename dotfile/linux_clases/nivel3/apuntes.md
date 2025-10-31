@@ -1,3 +1,12 @@
+- [5] 🔑 Permisos y propiedad 
+- [6] 💾 Espacion en disco y uso
+- [7] 🔧 Informacion del sistema 
+
+
+
+
+
+
 # Nivel 3: [Usuarios, Grupos y Seguridad en Linux]
 
 Este nivel se enfoca en la gestion de usuarios, grupos y 
