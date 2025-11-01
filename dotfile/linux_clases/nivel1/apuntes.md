@@ -17,12 +17,12 @@ Dominar el entorno de Shell Bash: navegar, manipular archivos, comprender rutas,
 
 |     Comando       |        Descripcion               |       Ejemplos          |
 | :---------------: | :------------------------------: | :---------------------  |
-|       `pwd`       | : Muestra la ruta actual         | pwd /home/usuario/      |
-|   `cd carpeta`    | : Cambia de carpeta              | cd Downloads            |
-|       `cd ..`     | : Retrocede una carpeta          | cd ..                   |
-|       `cd ~`      | : Va al directorio personal      | cd ~ (/home/usr/)       | 
-|       `ls`        | : Lsta Archivos                  | ls -l                   |
-|       `la -a`     | : Incluye archivos ocultos       | ls -la                  |
+|       `pwd`       |   Muestra la ruta actual         | pwd /home/usuario/      |
+|   `cd carpeta`    |   Cambia de carpeta              | cd Downloads            |
+|       `cd ..`     |   Retrocede una carpeta          | cd ..                   |
+|       `cd ~`      |   Va al directorio personal      | cd ~ (/home/usr/)       | 
+|       `ls`        |   Lsta Archivos                  | ls -l                   |
+|       `la -a`     |   Incluye archivos ocultos       | ls -la                  |
 
 
 ## 📁 Manejo de archivos y directorios 
@@ -46,4 +46,6 @@ Dominar el entorno de Shell Bash: navegar, manipular archivos, comprender rutas,
 |      `less`       | Permite leer por paginas          | usa /palabras para buscar         |
 |      `head`       | Muestra las primeras 10 lineas    | head -n 5 = primeras 5 lineas     |
 |      `tail`       | Muestra las ultimas 10 lineas     | tail -f long.txt sigue un archivo |
-|                   |                                   | en tiempo real                    |
+|                                                         en tiempo real                    |
+
+
