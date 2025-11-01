@@ -46,6 +46,6 @@ Dominar el entorno de Shell Bash: navegar, manipular archivos, comprender rutas,
 |      `less`       | Permite leer por paginas          | usa /palabras para buscar         |
 |      `head`       | Muestra las primeras 10 lineas    | head -n 5 = primeras 5 lineas     |
 |      `tail`       | Muestra las ultimas 10 lineas     | tail -f long.txt sigue un archivo |
-|                                                         en tiempo real                    |
+|                   |                                   | en tiempo real                    |
 
 
