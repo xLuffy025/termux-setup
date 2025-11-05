@@ -1,0 +1,10 @@
+2025-10-31 02:09 - Explorar sistema con pwd, cd y ls -lah
+2025-10-31 02:10 - Crear espacio de trabajo con mkdir <carpetas> y touch <archivos>
+2025-10-31 02:16 - Copiar archivo con cp hola.txt copy_hola.txt
+2025-10-31 02:19 - mover archivo con "mv copy_hola.txt ejercicio/bash_curso
+2025-10-31 02:21 - Eliminar archivo copy_hola.txt con rm y carpeta bash_curso con rm -R
+2025-10-31 02:26 - Imprimir texto con echo "Hola Mundo" y escribir en archivo con echo "ejemplo" >> hola.txt
+2025-10-31 02:34 - Visualisacion de archivo hola.txt con cat
+2025-10-31 02:35 - Visualisacion de archivo con less que permite leer por paginas
+2025-10-31 02:37 - Visualizacion con head las primeras 5 lineas
+2025-10-31 02:38 - Visualizacion con tail las ultimas 5 lineas
