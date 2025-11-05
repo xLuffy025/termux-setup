@@ -83,10 +83,10 @@ plugins=(git
 	zsh-syntax-highlighting 
 	fast-syntax-highlighting 
 	zsh-autocomplete
-	z
-	colored-man-pages
-	command-not-found
-	)
+  z 
+  colored-man-pages
+  command-not-found
+  )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -123,20 +123,55 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+
+
 #Alias basicos
+alias ll='lsd -lh --group-dirs=first'
+alias la='lsd -a --group-dirs=first'
+alias l='lsd --group-dirs=first'
+alias lla='lsd -lha --group-dirs=first'
+alias ls='lsd --group-dirs=first'
+alias cat='bat'
+
 alias lls='ls -la'
-alias ll='ls -lah --color=auto'
-alias la='ls -A'
-alias l='ls -CF'
 alias cls='clear'
 alias gs='git status'
 alias py='python'
 alias nv='nvim'
+alias tup="~/update.sh"
 alias fix-perms='chmod -R 755 *'
+alias up='pkg update -y && pkg upgrade -y'
 
 # history
 HISFILE=~/.zsh_history
 HISTSIZE=10000
 HITHIST=10000
 
+# API de Android (si tienes termux-api)
+
+alias vibrar='termux-vibrate -d 200'
+alias copiar='termux-clipboard-set'
+alias pegar='termux-clipboard-get'
+
+
+# --- Auto iniciar SSH agent y cargar clave ---
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)" > /dev/null
+  ssh-add ~/.ssh/xLuffy025 > /dev/null 2>&1
+fi
+
+export TERM=xterm-256color
+
+eval "$(starship init zsh)"
+alias gs='git status'
+alias ga='git add .'
+alias gc='git commit -m'
+alias gp='git push'
+alias gpo='git push origin'
+alias gpl='git pull'
+alias gco='git checkout'
+alias gl='git log --oneline --graph --decorate'
+alias gundo='git reset --soft HEAD~1'
 

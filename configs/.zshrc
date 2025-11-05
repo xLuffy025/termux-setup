@@ -123,6 +123,10 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+
+
 #Alias basicos
 alias ll='lsd -lh --group-dirs=first'
 alias la='lsd -a --group-dirs=first'
@@ -145,7 +149,7 @@ alias up='pkg update -y && pkg upgrade -y'
 alias arch='proot-distro login archlinux'
 alias ubuntu='proot-distro login ubuntu'
 alias debian='proot-distro login debian'
-alias fedora='proot-distro login fedora'
+alias rocky='proot-distro login rockylinux'
 
 # banners
 
@@ -163,25 +167,27 @@ alias copiar='termux-clipboard-set'
 alias pegar='termux-clipboard-get'
 
 
-# === Python Dev Aliases ===
-alias venv='source ~/.venv/bin/activate'
-alias vexit='deactivate'
-alias mkvenv='python -m venv ~/.venv && source ~/.venv/bin/activate && pip install --upgrade pip'
-alias pyreq='pip freeze > requirements.txt && echo "Guardado en requirements.txt"'
-alias pydev='source ~/.venv/bin/activate && echo "🐍 Entorno Python Dev activado"'
-
-echo "🐍 Python Dev listo: usa pydev para activar el entorno."
-
-# === Node.js Aliases ===
-alias noj='nose index.js'
-
 # === Linux curso
-alias reg='~/linux_clases/registra_ejercicio.sh'
-alias pro='~/linux_clases/progreso.sh'
-alias aput='~/linux_clases/abrir_apuntes.sh'
+alias reg='~/termux-setup/dotfile/linux_clases/registra_ejercicio.sh'
+alias pro='~/termux-setup/dotfile/linux_clases/progreso.sh'
+alias aput='~/termux-setup/dotfile/linux_clases/abrir_apuntes.sh'
 
 # --- Auto iniciar SSH agent y cargar clave ---
 if [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent -s)" > /dev/null
-  ssh-add ~/.ssh/id_ed25519 > /dev/null 2>&1
+  ssh-add ~/.ssh/xLuffy025 > /dev/null 2>&1
 fi
+
+export TERM=xterm-256color
+
+eval "$(starship init zsh)"
+alias gs='git status'
+alias ga='git add .'
+alias gc='git commit -m'
+alias gp='git push'
+alias gpo='git push origin'
+alias gpl='git pull'
+alias gco='git checkout'
+alias gl='git log --oneline --graph --decorate'
+alias gundo='git reset --soft HEAD~1'
+
