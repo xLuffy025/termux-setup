@@ -15,14 +15,7 @@ msg() { echo -e "${blue}==>${reset} $1"; }
 # FUNCIONES DE INSTALACIÓN
 # ------------------------------
 
-msg "Instalando Neovim y configurando NvChad Starter..."
-
-set -e
-
-echo -e "\n🧠 Instalando Neovim y configurando NvChad Starter...\n"
-
-# Dependencias básicas
-pkg install -y vim neovim
+msg "Configurando NvChad Starter..."
 
 # Verifica si ya existe ~/.config/nvim
 if [ -d "$HOME/.config/nvim" ]; then

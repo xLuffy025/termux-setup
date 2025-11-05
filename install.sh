@@ -22,13 +22,6 @@ err(){ echo -e "${RED}[✖]${RESET} $1"; }
 # 📦 FUNCIONES PRINCIPALES
 # ============================================================
 
-actualizar(){
-  msg "Actualizando Termux..."
-  pkg update -y && pkg upgrade -y || err "Error al actualizar paquetes"
-  termux-setup-storage
-  ok "Termux actualizado."
-}
-
 instalar_basicos(){
   msg "Instalando paquetes esenciales..."
   bash scripts/install_packages.sh || err "Error al instalar paquetes básicos"
@@ -37,13 +30,6 @@ instalar_basicos(){
 
 instalar_zsh(){
   msg "Instalando y configurando Zsh..."
-  
-  #Copia .p10k.zsh
-  if [ -f "configs/.p10k.zsh" ]; then
-    cp configs/.p10k.zsh ~/.p10k.zsh
-    ok "copiando .p10k.zsh"
-  fi
-
   bash scripts/install_zshxit.sh
   ok "Zsh configurado."
 }
@@ -67,7 +53,16 @@ instalar_node_js(){
 }
 
 instalar_vim_nvim(){
-  msg "Configurando Vim y Neovim..."
+  msg "Instalando vim-plug y plugins para Vim/Neovim..."
+  # vim-plug for vim
+  curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 2>/dev/null || warn "Failed to install vim-plug for vim"
+
+  # Run PlugInstall for vim
+  if command -v vim >/dev/null 2>&1; then
+    msg "Ejecutando PlugInstall en vim (headless)..."
+    vim +'PlugInstall --sync' +qa || warn "vim PlugInstall falló"
+  fi
 
   # Copiar .vimrc
   if [ -f "configs/.vimrc" ]; then
@@ -127,7 +122,6 @@ configurar_dotfiles(){
 # 🧠 INSTALACIÓN AUTOMÁTICA (modo silencioso)
 # ============================================================
 if [ "$1" == "--auto" ]; then
-  actualizar
   instalar_basicos
   instalar_zsh
   instalar_distros
@@ -150,16 +144,15 @@ mostrar_menu() {
   echo -e "${CYAN}╔═══════════════════════════════════════╗${RESET}"
   echo -e "${CYAN}║     🚀 TERMUX SETUP INSTALLER         ║${RESET}"
   echo -e "${CYAN}╚═══════════════════════════════════════╝${RESET}"
-  echo -e "${YELLOW}1)${RESET} Actualizar Termux"
-  echo -e "${YELLOW}2)${RESET} Instalar paquetes básicos"
-  echo -e "${YELLOW}3)${RESET} Instalar Zsh"
-  echo -e "${YELLOW}4)${RESET} Instalar Proot-Distro"
-  echo -e "${YELLOW}5)${RESET} Instalar Python dev"
-  echo -e "${YELLOW}6)${RESET} Instalar Node.js"
-  echo -e "${YELLOW}7)${RESET} Instalar Neovim/NvChad"
-  echo -e "${YELLOW}8)${RESET} Instalar Tmux"
-  echo -e "${YELLOW}9)${RESET} Copiar Dotfiles"
-  echo -e "${YELLOW}10)${RESET} Limpiar sistema"
+  echo -e "${YELLOW}1)${RESET} Instalar paquetes básicos"
+  echo -e "${YELLOW}2)${RESET} Instalar Zsh"
+  echo -e "${YELLOW}3)${RESET} Instalar Proot-Distro"
+  echo -e "${YELLOW}4)${RESET} Instalar Python dev"
+  echo -e "${YELLOW}5)${RESET} Instalar Node.js"
+  echo -e "${YELLOW}6)${RESET} Instalar Neovim/NvChad"
+  echo -e "${YELLOW}7)${RESET} Instalar Tmux"
+  echo -e "${YELLOW}8)${RESET} Copiar Dotfiles"
+  echo -e "${YELLOW}9)${RESET} Limpiar sistema"
   echo -e "${YELLOW}0)${RESET} Salir"
   echo
 }
@@ -168,16 +161,15 @@ while true; do
   mostrar_menu
   read -p "Selecciona una opción: " opt
   case $opt in
-    1) actualizar ;;
-    2) instalar_basicos ;;
-    3) instalar_zsh ;;
-    4) instalar_distros ;;
-    5) instalar_python_dev ;;
-    6) instalar_node_js ;;
-    7) instalar_vim_nvim ;;
-    8) instalar_tmux ;;
-    9) configurar_dotfiles ;;
-    10) limpiando_sistema ;;
+    1) instalar_basicos ;;
+    2) instalar_zsh ;;
+    3) instalar_distros ;;
+    4) instalar_python_dev ;;
+    5) instalar_node_js ;;
+    6) instalar_vim_nvim ;;
+    7) instalar_tmux ;;
+    8) configurar_dotfiles ;;
+    9) limpiando_sistema ;;
     0) echo "Saliendo..."; exit 0 ;;
     *) err "Opción no válida." ;;
   esac

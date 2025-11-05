@@ -40,9 +40,9 @@ echo -e "\nSistema detectado: ${GREEN}$DISTRO${RESET} ($USER_MODE)\n"
 
 # -------- LISTA UNIVERSAL DE PAQUETES --------
 BASE_PKGS=(
-  git wget curl zsh build-essential openssh clang make pkg-config jq unzip \
-  tar ripgrep fd tree htop rsync ncdu nmap net-tools socat screenfetch fastfetch \
-  cowsay tmux
+  git wget curl zsh build-essential python python3 python3-pip python-pip openssh clang make pkg-config \
+  jq unzip tar ripgrep fd tree htop rsync ncdu nmap net-tools socat screenfetch fastfetch \
+  cowsay tmux lsd bat 
 )
 
 # -------- INSTALAR SEGÚN DISTRO --------
