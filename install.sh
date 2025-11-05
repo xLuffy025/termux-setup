@@ -31,9 +31,7 @@ actualizar(){
 
 instalar_basicos(){
   msg "Instalando paquetes esenciales..."
-  pkg install -y git wget curl zsh build-essential openssh proot-distro termux-api \
-  root-repo x11-repo clang make pkg-config jq unzip tar ripgrep fd tree htop \
-  rsync ncdu nmap net-tools socat screenfetch fastfetch cowsay || err "Error al instalar paquetes básicos"
+  bash scripts/install_packages.sh || err "Error al instalar paquetes básicos"
   ok "Dependencias básicas instaladas."
 }
 
@@ -102,9 +100,10 @@ configurar_dotfiles(){
   mkdir -p "$HOME/dotfile"
 
   local archivos=(
-    "dotfile/eyes.bnr"
-    "dotfile/clear-termux.sh"
-    "dotfile/update.sh"
+    "dotfiles/eyes.bnr"
+    "dotfiles/clear-termux.sh"
+    "dotfiles/update.sh"
+    
   )
 
   for archivo in "${archivos[@]}"; do
