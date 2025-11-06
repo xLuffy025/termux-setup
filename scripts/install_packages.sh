@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
+#carga detección y variables
 source "$(dirname "$0")/env.sh"
+
+# ahora usa las variables exportadas
+echo "ENV=$ENV, OS_ID=$OS_ID, PKG=$PKG SUDO='$SUDO'"
+
+#!/usr/bin/env bash
 
 # -------- COLORS --------
 GREEN="\033[1;32m"; YELLOW="\033[1;33m"; RED="\033[1;31m"; RESET="\033[0m"
@@ -39,17 +45,19 @@ detect_distro
 echo -e "\nSistema detectado: ${GREEN}$DISTRO${RESET} ($USER_MODE)\n"
 
 # -------- LISTA UNIVERSAL DE PAQUETES --------
+
 BASE_PKGS=(
   git wget curl zsh build-essential python python3 python3-pip python-pip openssh clang make pkg-config \
   jq unzip tar ripgrep fd tree htop rsync ncdu nmap net-tools socat screenfetch fastfetch \
   cowsay tmux lsd bat 
 )
 
+
 # -------- INSTALAR SEGÚN DISTRO --------
 case "$DISTRO" in
   termux)
     pkg update -y && pkg upgrade -y
-    pkg install -y "${BASE_PKGS[@]}" proot-distro termux-api root-repo x11-repo
+    pkg install -y "${BASE_PKGS[@]}" proot-distro
     ;;
 
   debian)
@@ -77,5 +85,6 @@ case "$DISTRO" in
     exit 1
     ;;
 esac
-
 ok "Paquetes instalados correctamente ✅"
+
+
