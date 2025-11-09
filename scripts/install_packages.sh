@@ -1,90 +1,133 @@
 #!/usr/bin/env bash
+# ============================================================
+# install_packages.sh — Instalador universal de dependencias
+# Usa la detección de entorno desde env.sh
+# Autor: xLuffy025
+# ============================================================
 
-#carga detección y variables
-source "$(dirname "$0")/env.sh"
+set -euo pipefail
+IFS=$'\n\t'
 
-# ahora usa las variables exportadas
-echo "ENV=$ENV, OS_ID=$OS_ID, PKG=$PKG SUDO='$SUDO'"
+# Cargar entorno
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/env.sh"
 
-#!/usr/bin/env bash
+msg()  { echo -e "📦 ${1}"; }
+ok()   { echo -e "✅ ${1}"; }
+warn() { echo -e "⚠️ ${1}"; }
+err()  { echo -e "❌ ${1}" >&2; }
 
-# -------- COLORS --------
-GREEN="\033[1;32m"; YELLOW="\033[1;33m"; RED="\033[1;31m"; RESET="\033[0m"
-ok(){ echo -e "${GREEN}[✔]${RESET} $1"; }
-warn(){ echo -e "${YELLOW}[!]${RESET} $1"; }
-err(){ echo -e "${RED}[✖]${RESET} $1"; }
+msg "🔍 Detectando entorno..."
+echo -e "🌍 Entorno: ${ENV} | 🐧 Distro: ${OS_ID} | 📦 Gestor: ${PKG}"
 
-# -------- DETECT ROOT --------
-if [ "$(id -u)" -eq 0 ]; then
-  SUDO=""
-  USER_MODE="root"
-else
-  SUDO="sudo"
-  USER_MODE="user"
-fi
+# ------------------------------------------------------------
+# Instalador universal de paquetes base
+# ------------------------------------------------------------
 
-# -------- DETECT DISTRO --------
-detect_distro() {
-  if command -v pkg >/dev/null 2>&1; then
-    DISTRO="termux"
-  elif command -v apt >/dev/null 2>&1; then
-    DISTRO="debian"
-  elif command -v pacman >/dev/null 2>&1; then
-    DISTRO="arch"
-  elif command -v dnf >/dev/null 2>&1; then
-    DISTRO="fedora"
-  elif command -v zypper >/dev/null 2>&1; then
-    DISTRO="opensuse"
-  else
-    DISTRO="unknown"
-  fi
+install_base_packages() {
+  msg "Instalando paquetes esenciales para ${ENV}/${OS_ID}..."
+
+  case "$PKG" in
+    pkg)
+      pkg update -y && pkg upgrade -y
+      pkg install -y git curl wget zsh vim neovim tmux python nodejs \
+        proot-distro openssh termux-api build-essential clang make jq unzip tar \
+        ripgrep fd tree htop rsync ncdu nmap net-tools || warn "Algunos paquetes fallaron."
+      ;;
+
+    apt)
+      $SUDO apt update -y
+      $SUDO apt install -y git curl wget zsh vim neovim tmux python3 python3-pip \
+        nodejs npm build-essential jq unzip tar ripgrep fd-find tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
+      ;;
+
+    pacman)
+      $SUDO pacman -Sy --noconfirm --needed git curl wget zsh vim neovim tmux python nodejs npm \
+        base-devel ripgrep fd tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
+      ;;
+
+    dnf)
+      $SUDO dnf install -y git curl wget zsh vim neovim tmux python3 python3-pip nodejs npm \
+        @development-tools ripgrep fd-find tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
+      ;;
+
+    yum)
+      $SUDO yum install -y git curl wget zsh vim neovim tmux python3 python3-pip nodejs npm \
+        make gcc jq unzip tar tree htop rsync || warn "Algunos paquetes fallaron."
+      ;;
+
+    apk)
+      $SUDO apk add --no-cache git curl wget zsh vim neovim tmux python3 py3-pip nodejs npm \
+        build-base jq tar ripgrep fd tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
+      ;;
+
+    *)
+      err "No se reconoce el gestor de paquetes (${PKG}). Debes instalar los paquetes manualmente."
+      return 1
+      ;;
+  esac
+
+  ok "Dependencias básicas instaladas con éxito en ${ENV} (${PKG})."
 }
 
-detect_distro
+# ------------------------------------------------------------
+# Instalador de dependencias opcionales (por rol)
+# ------------------------------------------------------------
 
-echo -e "\nSistema detectado: ${GREEN}$DISTRO${RESET} ($USER_MODE)\n"
+install_dev_tools() {
+  msg "Instalando herramientas para desarrollo..."
+  case "$PKG" in
+    pkg|apt)
+      $SUDO apt install -y gcc g++ make cmake gdb clang lldb python3-venv pipx || true
+      ;;
+    pacman)
+      $SUDO pacman -S --noconfirm --needed gcc make cmake gdb clang lldb python-virtualenv || true
+      ;;
+    dnf|yum)
+      $SUDO dnf install -y gcc-c++ make cmake gdb clang lldb python3-virtualenv || true
+      ;;
+  esac
+  ok "Herramientas de desarrollo instaladas."
+}
 
-# -------- LISTA UNIVERSAL DE PAQUETES --------
+install_gui_tools() {
+  msg "Instalando herramientas con GUI (solo para distros completas)..."
+  case "$PKG" in
+    apt)
+      $SUDO apt install -y neofetch ranger || true
+      ;;
+    pacman)
+      $SUDO pacman -S --noconfirm --needed neofetch ranger || true
+      ;;
+  esac
+  ok "Herramientas gráficas instaladas (si aplica)."
+}
 
-BASE_PKGS=(
-  git wget curl zsh build-essential python python3 python3-pip python-pip openssh clang make pkg-config \
-  jq unzip tar ripgrep fd tree htop rsync ncdu nmap net-tools socat screenfetch fastfetch \
-  cowsay tmux lsd bat 
-)
+# ------------------------------------------------------------
+# Modo automático o interactivo
+# ------------------------------------------------------------
 
-
-# -------- INSTALAR SEGÚN DISTRO --------
-case "$DISTRO" in
-  termux)
-    pkg update -y && pkg upgrade -y
-    pkg install -y "${BASE_PKGS[@]}" proot-distro
-    ;;
-
-  debian)
-    $SUDO apt update && $SUDO apt upgrade -y
-    $SUDO apt install -y "${BASE_PKGS[@]}" build-essential
-    ;;
-
-  arch)
-    $SUDO pacman -Syu --noconfirm
-    $SUDO pacman -S --noconfirm "${BASE_PKGS[@]}" base-devel
-    ;;
-
-  fedora)
-    $SUDO dnf update -y
-    $SUDO dnf install -y "${BASE_PKGS[@]}" @development-tools
-    ;;
-
-  opensuse)
-    $SUDO zypper refresh
-    $SUDO zypper install -y "${BASE_PKGS[@]}" -t pattern devel_basis
-    ;;
-
-  *)
-    err "Distribución no soportada automáticamente"
-    exit 1
-    ;;
-esac
-ok "Paquetes instalados correctamente ✅"
+if [[ "${1:-}" == "--auto" ]]; then
+  msg "🚀 Instalación automática iniciada..."
+  install_base_packages
+  install_dev_tools
+  ok "✅ Instalación automática completa."
+else
+  echo
+  echo "=== MENU INSTALACIÓN DE PAQUETES ==="
+  echo "1) Instalar paquetes base"
+  echo "2) Instalar herramientas de desarrollo"
+  echo "3) Instalar herramientas gráficas"
+  echo "0) Salir"
+  echo
+  read -p "Selecciona una opción: " opt
+  case $opt in
+    1) install_base_packages ;;
+    2) install_dev_tools ;;
+    3) install_gui_tools ;;
+    0) echo "Saliendo..." ;;
+    *) warn "Opción inválida" ;;
+  esac
+fi 
 
 
