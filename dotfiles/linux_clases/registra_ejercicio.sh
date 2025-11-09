@@ -12,7 +12,7 @@ read -p "¿En qué nivel estás (1-5)? " nivel
 
 # Validar nivel
 if [[ "$nivel" =~ ^[1-5]$ ]]; then
-  carpeta=~/termux-setup/dotfile/linux_clases/nivel${nivel}
+  carpeta=~/termux-setup/dotfiles/linux_clases/nivel${nivel}
   archivo=$carpeta/completados.txt
 
   # Crear carpeta si no existe

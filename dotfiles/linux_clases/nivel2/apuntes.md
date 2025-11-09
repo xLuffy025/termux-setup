@@ -102,17 +102,5 @@ find . -xtype l
 find . -regex ".*\.log"
 ```
 
-- `ps`              : Lista procesos activos
-- `top / htop`      : Monitor en tiempo real 
-- `kill`            : Termina procesos
-- `nice / renice`   : Ajusta prioridad
-- `>`               : Redirige salida de un archivo 
-- `>>`              : Añade al final de un archivo
-- `<`               : Usa archivo como entrada 
-- `|`               : Conecta salida con un comando a otro
-- `tar`             : Empaqueta archivos 
-- `gzip, gunzip`    : Comprime y descomprime
-- `zip, unzip`      : altenativa común 
-
 
 

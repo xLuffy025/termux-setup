@@ -15,7 +15,7 @@ echo ""
 # Función para mostrar barra de progreso
 mostrar_barra() {
   nivel=$1
-  archivo=~/termux-setup/dotfile/linux_clases/nivel${nivel}/completados.txt
+  archivo=~/termux-setup/dotfiles/linux_clases/nivel${nivel}/completados.txt
   meta=5  # puedes cambiar esto si quieres más ejercicios por nivel
 
   if [ -f "$archivo" ]; then

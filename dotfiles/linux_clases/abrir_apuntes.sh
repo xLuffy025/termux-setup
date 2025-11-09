@@ -18,8 +18,8 @@ frases=(
 # Pedir nivel
 read -p "¿Qué nivel quieres estudiar (1-5)? " nivel
 
-archivo=~/termux-setup/dotfile/linux_clases/nivel${nivel}/apuntes.md
-registro=~/termux-setup/dotfile/linux_clases/nivel${nivel}/completados.txt
+archivo=~/termux-setup/dotfiles/linux_clases/nivel${nivel}/apuntes.md
+registro=~/termux-setup/dotfiles/linux_clases/nivel${nivel}/completados.txt
 meta=10
 
 # Mostrar progreso visual
