@@ -32,32 +32,33 @@ install_base_packages() {
       pkg update -y && pkg upgrade -y
       pkg install -y git curl wget zsh vim neovim tmux python nodejs \
         proot-distro openssh termux-api build-essential clang make jq unzip tar \
-        ripgrep fd tree htop rsync ncdu nmap net-tools || warn "Algunos paquetes fallaron."
+        ripgrep fd tree htop rsync ncdu nmap net-tools x11-repo root-repo \
+        fastfetch || warn "Algunos paquetes fallaron."
       ;;
 
     apt)
       $SUDO apt update -y
-      $SUDO apt install -y git curl wget zsh vim neovim tmux python3 python3-pip \
+      $SUDO apt install -y git curl wget zsh vim python3 python3-pip \
         nodejs npm build-essential jq unzip tar ripgrep fd-find tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
       ;;
 
     pacman)
-      $SUDO pacman -Sy --noconfirm --needed git curl wget zsh vim neovim tmux python nodejs npm \
+      $SUDO pacman -Sy --noconfirm --needed git curl wget zsh vim neovim python nodejs npm \
         base-devel ripgrep fd tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
       ;;
 
     dnf)
-      $SUDO dnf install -y git curl wget zsh vim neovim tmux python3 python3-pip nodejs npm \
+      $SUDO dnf install -y git curl wget zsh vim neovim python3 python3-pip nodejs npm \
         @development-tools ripgrep fd-find tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
       ;;
 
     yum)
-      $SUDO yum install -y git curl wget zsh vim neovim tmux python3 python3-pip nodejs npm \
+      $SUDO yum install -y git curl wget zsh vim neovim python3 python3-pip nodejs npm \
         make gcc jq unzip tar tree htop rsync || warn "Algunos paquetes fallaron."
       ;;
 
     apk)
-      $SUDO apk add --no-cache git curl wget zsh vim neovim tmux python3 py3-pip nodejs npm \
+      $SUDO apk add --no-cache git curl wget zsh vim neovim  python3 py3-pip nodejs npm \
         build-base jq tar ripgrep fd tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
       ;;
 
@@ -94,10 +95,12 @@ install_gui_tools() {
   msg "Instalando herramientas con GUI (solo para distros completas)..."
   case "$PKG" in
     apt)
-      $SUDO apt install -y neofetch ranger || true
+      $SUDO apt install -y fastfetch ranger kitty alacritty firefox  || true
       ;;
     pacman)
-      $SUDO pacman -S --noconfirm --needed neofetch ranger || true
+      $SUDO pacman -S --noconfirm --needed neofetch ranger kitty alacritty  firefox \
+
+        || true
       ;;
   esac
   ok "Herramientas gráficas instaladas (si aplica)."
