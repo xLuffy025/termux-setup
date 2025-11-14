@@ -4,9 +4,9 @@
 
 set -u
 
-# ==== Detect Termux ====
+# ==== Detect TERMUX ====
 detect_termux() {
-  [[ -d "/data/data/com.termux/files" && -n "${PREFIX:-}" && "$PREFIX " == *"com.termux"* ]]
+  [[ -d "/data/data/com.termux/files/usr" && "$PREFIX" == *"/data/data/com.termux/files/usr"* ]]
 }
 
 # ==== Detect PROOT ====
@@ -87,4 +87,5 @@ if [ -t 1 ]; then
   echo -e "🐧 Distro: ${OS_ID:-N/A}"
   echo -e "📦 Gestor: ${PKG:-unknown}"
   echo -e "🔑 Root: ${IS_ROOT}\n"
-fi
+fi 
+
