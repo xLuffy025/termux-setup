@@ -151,13 +151,24 @@ alias ubuntu='proot-distro login ubuntu'
 alias debian='proot-distro login debian'
 alias rocky='proot-distro login rockylinux'
 
-# banners
+# Caja_de_ahorro funciones
 
-cat ~/dotfile/eyes.bnr
+cajaReg() {
+  bash ~/Caja_de_ahorro/caja_ahorro.sh registro "$@"
+}
 
-# history
-HISFILE=~/.zsh_history
-HISTSIZE=10000
+cajaRep() {
+  bash ~/Caja_de_ahorro/caja_ahorro.sh reporte "$@"
+}
+
+cajaRepAll() {
+  bash ~/Caja_de_ahorro/caja_ahorro.sh reporte-todos
+}
+
+cajaList() {
+  bash ~/Caja_de_ahorro/caja_ahorro.sh listar
+}
+
 HITHIST=10000
 
 # API de Android (si tienes termux-api)
@@ -179,7 +190,6 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
 fi
 
 export TERM=xterm-256color
-
 eval "$(starship init zsh)"
 alias gs='git status'
 alias ga='git add .'
