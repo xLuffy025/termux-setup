@@ -25,7 +25,7 @@ echo -e "🌍 Entorno: ${ENV} | 🐧 Distro: ${OS_ID} | 📦 Gestor: ${PKG}"
 # ------------------------------------------------------------
 
 install_base_packages() {
-  msg "Instalando paquetes esenciales para ${ENV}/${OS_ID}..."
+  msg "Instalando paquetes esenciales para ${ENV}/${OS_ID}/${PKG}..."
 
   case "$PKG" in
     pkg)
@@ -98,9 +98,7 @@ install_gui_tools() {
       $SUDO apt install -y fastfetch ranger kitty alacritty firefox  || true
       ;;
     pacman)
-      $SUDO pacman -S --noconfirm --needed neofetch ranger kitty alacritty  firefox \
-
-        || true
+      $SUDO pacman -S --noconfirm --needed neofetch ranger kitty alacritty  firefox || true
       ;;
   esac
   ok "Herramientas gráficas instaladas (si aplica)."
