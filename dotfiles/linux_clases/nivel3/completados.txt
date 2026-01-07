@@ -1,5 +1,0 @@
-2025-10-15 23:25 - Crear usuario de prueba
-2025-10-15 23:26 - Asignar grupo personalizado
-2025-10-15 23:27 - Auditoria de seguridad basica
-2025-10-15 23:28 - Script para mostrar usuario activos y sus grupos
-2025-10-15 23:29 - Crear usuario con fecha de expedición

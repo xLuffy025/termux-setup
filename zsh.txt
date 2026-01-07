@@ -1,0 +1,4 @@
+alias ahorro='~/cumpleaños/tanda_cumple.sh'
+alias bajar='rclone sync onedrive:caja_2026  ~/caja_2026 --progress'
+alias subir='rclone  sync ~/caja_2026 onedrive:caja_2026 --progress'
+

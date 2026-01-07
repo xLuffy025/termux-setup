@@ -1,4 +1,0 @@
-2025-10-15 21:05 - Ver procesos de archivos
-2025-10-15 21:05 - Redirigir salida
-2025-10-15 21:13 - Buscar contenido
-2025-10-15 21:26 - Empaquetado y comprimir
