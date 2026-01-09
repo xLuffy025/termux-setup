@@ -22,7 +22,7 @@ set -e
 echo -e "\n🧠 Instalando Neovim y configurando NvChad Starter...\n"
 
 # Dependencias básicas
-pacman -Sy vim neovim --noconfirm
+	sudo pacman -Sy vim neovim --noconfirm
 
 # Verifica si ya existe ~/.config/nvim
 if [ -d "$HOME/.config/nvim" ]; then
