@@ -51,7 +51,7 @@ detect_pkgmgr() {
       echo "unknown"
       ;;
   esac
-}
+ 
 
 # ==== Detect USER privilege ====
 if [ "$(id -u)" -eq 0 ]; then
