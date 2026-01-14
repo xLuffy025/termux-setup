@@ -132,4 +132,34 @@ validar_parametros() {
   fi 
 }
 ```
+# 🎯 Funciones Puras
+- Retornar vía `echo`, no modificar variables globales
+- Sin efectos secundarios cuando sea posible
 
+```bash 
+# ✅ Función Pura 
+obtener_usuario() {
+  local usuario="Juan"
+  echo "$usuario"
+}
+
+resultado=$(obtener_usuario)
+```
+## ❌ Qué Evitar 
+```bash
+# ❌ Muy largo
+calcular_el_promedio_de_los_numeros() { ... }
+
+# ❌ Muy corto
+calc() { ... }
+
+# ❌ Conflicto con comando de sistemas
+test() { ... }
+echo() { ... }
+
+# Nunca poner el mismo nombre de una variable a una funcinón 
+
+# ✅ Mejor 
+test_conexion() { ... }
+mostrar_mensaje() { ... }
+```
