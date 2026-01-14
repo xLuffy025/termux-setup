@@ -109,11 +109,11 @@ tiene_permiso() { ... }     # Verificaciones
 obtener_nombre() { ... }    # Retornar datos
 mostrar_menu() { ... }      # mostrar informativos
 ```
-## Funciones blooleanas Prefijos es_, tiene_ 
+### Funciones blooleanas Prefijos es_, tiene_ 
 ```bash
 es_numero()     # Intencion clara
 ```
-# 6. Argumento de Funciones
+## 6. Argumento de Funciones
 ### ✅ Usar "$@" (preservar espacios)
 ```bash
 mi_funcion "$@"
@@ -123,7 +123,7 @@ mi_funcion "$@"
 mi_funcion $*
 ```
 
-## ✔️ Validaciones de validar_entrada
+### ✔️ Validaciones de validar_entrada
 ```bash 
 # Validar al inicio (fail-fast)
 validar_parametros() {
