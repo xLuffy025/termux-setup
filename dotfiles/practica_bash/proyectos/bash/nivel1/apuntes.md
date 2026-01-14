@@ -1,12 +1,12 @@
 # Nivel 1: [Configuracion Inicial]
 
-# 1. Shebang
+## 1. Shebang
 ```bash
 #!/bin/bash
 # o mejor portabilidad:
 #!/usr/bin/env bash
 ```
-# 2. Modo ESTRICTO (Recomendado)
+## 2. Modo ESTRICTO (Recomendado)
 ```bash
 set -euo pipefall
 ```
@@ -14,7 +14,7 @@ set -euo pipefall
 - -u Trata variables no definidas como un error
 - -o pipefall: falla si cualquier comando en un pipe falla
 
-# 3. Identación 
+## 3. Identación 
 - Usa 2 o 4 espacios (ser consistente)
 - Nunca mezclar tabs con espacios
 ```bash
@@ -23,7 +23,7 @@ if [[ condition ]]; then
 fi
 ```
 
-# 4. Comentarios
+## 4. Comentarios
 - Explicar el "por que", no el "que"
 - Ser concisos pero informativos
 
@@ -38,7 +38,7 @@ rm -rf /var/log/app/*.log
 rm -rf /var/log/app/*.logs
 ```
 
-# 5. Variables
+## 5. Variables
 
 | Tipo | Convención | Exemplo | Uso |
 | --------------- | --------------- | --------------- | --------------- |
