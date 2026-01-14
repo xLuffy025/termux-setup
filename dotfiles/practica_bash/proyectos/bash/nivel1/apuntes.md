@@ -70,19 +70,19 @@ contador="${contador:-0
 | `ls="lista"` | Sobrescribe comando | `archivos_lista="lista"` |
 | `var$=5` | Caracteres especiales | `var_dolar=5` |
 
-# 🔒 Variables: Siempre Entrecomillar 
+## 🔒 Variables: Siempre Entrecomillar 
 
-## ✅ Correcto 
+### ✅ Correcto 
 ```bash
 echo "$mi_variable"
 echo "${mi_vsriable}"
 ```
-## ❎  Incorrecto
+### ❎  Incorrecto
 ```bash
 echo $mi_variable # Vulnerable a word splitting y globbing
 ```
 
-# 🔧 Funciones
+## 🔧 Funciones
 
 **Convención recomendada:** `sanke_case` con verbos descriptivos
 
@@ -94,7 +94,7 @@ echo $mi_variable # Vulnerable a word splitting y globbing
 | **PascalCase** | `ProcesarArchivo()` | ❌ No usar |
 | **MAYUSCULAS** | `PROCESAR_ARCHIVO()` | ❌ Reservar para constantes |
 
-# ✅ **Buenas Practicas**
+## ✅ **Buenas Practicas**
 
 ## Usar verbos para acciones
 ```bash
@@ -123,7 +123,7 @@ mi_funcion "$@"
 mi_funcion $*
 ```
 
-# ✔️ Validaciones de validar_entrada
+## ✔️ Validaciones de validar_entrada
 ```bash 
 # Validar al inicio (fail-fast)
 validar_parametros() {
