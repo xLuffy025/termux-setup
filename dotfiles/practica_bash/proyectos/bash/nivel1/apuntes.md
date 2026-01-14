@@ -10,9 +10,9 @@
 ```bash
 set -euo pipefall
 ```
--e Sale si un comando falla
--u Trata variables no definidas como un error
--o pipefall: falla si cualquier comando en un pipe falla
+- -e Sale si un comando falla
+- -u Trata variables no definidas como un error
+- -o pipefall: falla si cualquier comando en un pipe falla
 
 # 3. Identación 
 - Usa 2 o 4 espacios (ser consistente)
