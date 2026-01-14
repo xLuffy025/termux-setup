@@ -96,13 +96,13 @@ echo $mi_variable # Vulnerable a word splitting y globbing
 
 ## ✅ **Buenas Practicas**
 
-# Usar verbos para acciones
+### Usar verbos para acciones
 ```bash
 ordered list() { ... }
 validar_entrada() { ... }
 limpiar_log() { ... }
 ```
-# Prefijos para tipos especificos
+### Prefijos para tipos especificos
 ```bash
 es_valor() { ... }          # Booleanas
 tiene_permiso() { ... }     # Verificaciones
@@ -114,11 +114,11 @@ mostrar_menu() { ... }      # mostrar informativos
 es_numero()     # Intencion clara
 ```
 # 6. Argumento de Funciones
-## ✅ Usar "$@" (preservar espacios)
+### ✅ Usar "$@" (preservar espacios)
 ```bash
 mi_funcion "$@"
 ```
-## ❌ Usar $* (no preservar espacios)
+### ❌ Usar $* (no preservar espacios)
 ```bash
 mi_funcion $*
 ```
