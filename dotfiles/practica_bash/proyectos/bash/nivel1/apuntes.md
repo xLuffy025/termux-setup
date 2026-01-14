@@ -219,7 +219,7 @@ archivos=`ls *.txt`
 | --------------- | --------------- | --------------- |
 | `echo $variable` | word splitting y globbing | `echo "$variable"` |
 | `funcion $*` | No perservar espacios | `funcion "$@"` |
-| `cat archivo \| grep patron` | Proceso innecesario (UUOC) | `grep paron archovo` |
+| `cat archivo \| grep patron` | Proceso innecesario (UUOC) | `grep patron archivo` |
 | `if [ $var = "x" ]` | Menos robusto | `if [[ $var == "x" ]]` |
 | `var=`comando` ` | Dificil de anidar | `var=$(comando)` |
 | `echo -e "lineal\n"` | No portable | `printf "linea\n"` |
