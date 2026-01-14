@@ -24,7 +24,7 @@ fi
 ```
 
 ## 4. Comentarios
-- Explicar el "por que", no el "que"
+- Explicar el <u>"por que"<u>, no el <u>"que"<u>
 - Ser concisos pero informativos
 
 -✅ Bueno: Explicar la razón 
