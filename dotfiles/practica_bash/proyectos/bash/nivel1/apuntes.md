@@ -8,7 +8,7 @@
 ```
 ## 2. Modo ESTRICTO (Recomendado)
 ```bash
-set -euo pipefall
+set -euo pipefail
 ```
 - -e Sale si un comando falla
 - -u Trata variables no definidas como un error
@@ -163,3 +163,95 @@ echo() { ... }
 test_conexion() { ... }
 mostrar_mensaje() { ... }
 ```
+## 🏷️ Nombre de scripts
+```bash
+# Minusculas, descriptivos, con guiones
+# ✅ Correcto
+backup-datebase.sh 
+procesar-archivos.sh 
+
+# ❌ Evitar 
+backupDatebase.sh 
+procesar_archivos.sh 
+
+```
+## 🔍 Comparaciones Modernas
+```bash
+# ✅ U4sar [[ ]] (más robusto)
+if [[ $var = "valor" ]]; then
+  echo "correcto"
+fi 
+
+# ❌ Mal Evitar [ ] (menos robusto)
+if [ $var = "valor" ]; then 
+  echo "antiguo"
+fi 
+
+# ✅ solo para operaciones numericas 
+if  (( var == "valor" )); then 
+  echo "correcto"
+fi
+```
+## 📤 Salida! formateada
+```bash
+# ✅ printf (más portable y predecible)
+printf "%s/n" "$variable"
+printf "Usuario: %s, ID: %d/n" "$usuario" "$id"
+
+# echo -e "texto\n"
+
+```
+📤
+## 🔁 Sustitución de Comandos
+```bash
+# ✅ Usar $() (fácil de anidar)
+archivos=$(ls *.txt)
+fecha=$(date +%Y-%m-%d)
+
+# ❌ Evitar backticks (dificil de anidar)
+archivos=`ls *.txt`
+```
+
+# Qué Evitar
+## ⚠️ Antiparametros Comunes
+
+| ❌ Mala Práctica | Por qué evitarlo | ✅ Alternariva |
+| --------------- | --------------- | --------------- |
+| `echo $variable` | word splitting y globbing | `echo "$variable"` |
+| `funcion $*` | No perservar espacios | `funcion "$@"` |
+| `cat archivo \| grep patron` | Proceso innecesario (UUOC) | `grep paron archovo` |
+| `if [ $var = "x" ]` | Menos robusto | `if [[ $var == "x" ]]` |
+| `var=`comando` ` | Dificil de anidar | `var=$(comando)` |
+| `echo -e "lineal\n"` | No portable | `printf "linea\n"` |
+| `eval $comando` | Riesgo de seguridad | Evitar o sanitizar |
+| `comando_critico` (sin verificar) | Script  continúa tras fallo | `comando_critico \|\| exit 1` |
+| `contador=$contador+1` | Variable sin inicializar | `contador=${contador:-0}` |
+| `function nombre()` | Sintaxis mixta | `nombre()` |
+| `[[ "$str" -eq 5 ]]` | `-eq` es para números | `[[ "$srt" == "5" ]]` |
+| `cmd \| cmd2 \| cmd3` | Solo verifica último exit code | `set -o pipefail` |
+
+# 🚫 Nunca Hacer 
+```bash
+# ❌ variable sin comillas en contextos sensibles
+rm -rf $firectorio/*
+
+# ❌ Usar eval con entrada no sanitizada
+eval $entrada_usuario
+
+# ❌ Ignorar códigos de salida de comandos críticos 
+comando_importante
+# conrinuar sin verificar...
+
+# ❌ Parsear salida de ls 
+for archivo in $(ls); do 
+  # problemas con espacios
+done
+
+# ✅ Mejor usar globbing 
+for archivo in *; do 
+  [[ -f "$archivo" ]] && echo "$archivo"
+done 
+
+
+```
+
