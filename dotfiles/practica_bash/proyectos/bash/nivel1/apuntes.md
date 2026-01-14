@@ -114,16 +114,16 @@ mostrar_menu() { ... }      # mostrar informativos
 es_numero()     # Intencion clara
 ```
 ## 6. Argumento de Funciones
-### ✅ Usar "$@" (preservar espacios)
+#### ✅ Usar "$@" (preservar espacios)
 ```bash
 mi_funcion "$@"
 ```
-### ❌ Usar $* (no preservar espacios)
+#### ❌ Usar $* (no preservar espacios)
 ```bash
 mi_funcion $*
 ```
 
-### ✔️ Validaciones de validar_entrada
+#### ✔️ Validaciones de validar_entrada
 ```bash 
 # Validar al inicio (fail-fast)
 validar_parametros() {
@@ -132,10 +132,4 @@ validar_parametros() {
   fi 
 }
 ```
-
-
-
-
-
-
 
