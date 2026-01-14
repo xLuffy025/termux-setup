@@ -145,7 +145,7 @@ obtener_usuario() {
 
 resultado=$(obtener_usuario)
 ```
-## ❌ Qué Evitar 
+### ❌ Qué Evitar 
 ```bash
 # ❌ Muy largo
 calcular_el_promedio_de_los_numeros() { ... }
