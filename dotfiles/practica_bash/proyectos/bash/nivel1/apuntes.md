@@ -270,15 +270,10 @@ done
 
 | **Caracteristica** | `"` **Dobles** | `'` **Simples** |
 | --------------- | --------------- | --------------- |
-| Expansión de variable | ✅ si - `"$var"` → valor de la variable | ❌ No - `'$var'` |
-| Item1.2 | Item2.2 | Item3.2 |
-| Item1.3 | Item2.3 | Item3.3 |
-| Item1.4 | Item2.4 | Item3.4 |
-
-
-
-
-
-
-
-
+| Expansión de variable | ✅ si - `"$var"` → valor de la variable | ❌ No - `'$var'` → literal `$var`  |
+| Sudtitución de comandos  | ✅ si - `"$(date)"` → fecha actual  | ❌ No - `'$(date)'` → literal `$(date)`|
+| Expanción del historial (`!cmd`) | ✅ si (si está habilitada con `set -H`)  | ❌ No |
+| Caracteres especiales (`*`,`?`,`{}`)  | ✅ Si, si no están escapados | ❌ No, se improme tal cual enviando el globbing y concatenar  | 
+| Incluir comillas dentro  | Si, podemos poner `'` sin escapar  | ❌ No podemos poner `'` directamente sin cerrar |
+| Globbing (`*`, `?`) | 🔹 Prevenidos si están dentro, salvo que se expandan por `eval` | 🔹 Igual, prevenidos |
+| Word splitting (especios) | ✅ Espacios preservados | ✅ Espacios preservados |
