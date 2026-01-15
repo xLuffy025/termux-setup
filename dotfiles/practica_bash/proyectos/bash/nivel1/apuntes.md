@@ -254,4 +254,31 @@ done
 
 
 ```
+## Status Code 
+
+| Código    | Descripción     |
+|--------------- | --------------- |
+| 0   | ✅ Éxit: comando/función terminó correctament.    |
+| 1   | ❌ Error general (no especificado).   |
+| 2   | Mal uso de funciones integradas del shell (ej. sintaxis incorrecta)   |
+| 126   | Permisos insuficiente para ejecutar el comando   |
+| 127   | Comando no encontrado (ej. tipo en el nombre).    |
+| 128+n  | Terminación por señal `n` (ej.`130 = 128 + 2` → `SIGINT` / Control+C). |
+| 255   | Valor fuera de rango (mayor que 255). |
+
+## Comilllas Dobles y Simples
+
+| **Caracteristica** | `"` **Dobles** | `'`**Simples** |
+| --------------- | --------------- | --------------- |
+| Expansión de variable | ✅ si - `"$var` → valor de la variable | ❌ No - `\\`$var`\\` |
+| Item1.2 | Item2.2 | Item3.2 |
+| Item1.3 | Item2.3 | Item3.3 |
+| Item1.4 | Item2.4 | Item3.4 |
+
+
+
+
+
+
+
 
