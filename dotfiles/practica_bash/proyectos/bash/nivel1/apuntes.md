@@ -177,7 +177,7 @@ procesar_archivos.sh
 ```
 ## 🔍 Comparaciones Modernas
 ```bash
-# ✅ U4sar [[ ]] (más robusto)
+# ✅ Usar [[ ]] (más robusto)
 if [[ $var = "valor" ]]; then
   echo "correcto"
 fi 
