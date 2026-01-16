@@ -3,3 +3,5 @@
 # o mejor portabilidad:
 
 #!/usr/bin/env bash 
+
+echo
