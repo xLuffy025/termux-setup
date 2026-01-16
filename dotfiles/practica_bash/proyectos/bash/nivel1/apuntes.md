@@ -75,7 +75,7 @@ contador="${contador:-0
 ### ✅ Correcto 
 ```bash
 echo "$mi_variable"
-echo "${mi_vsriable}"
+echo "${mi_variable}"
 ```
 ### ❎  Incorrecto
 ```bash
