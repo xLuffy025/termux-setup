@@ -4,10 +4,22 @@
 #       Colores
 # -------------------------------------------------------
 GREEN="\033[1;32m"
-YELLOW=
-CYAN=
-RED=
-RESET=
+YELLOW="\033[1;33m"
+CYAN="\033[1;36m"
+RED="\033[1;31m"
+RESET="\033[1;0m"
+
+# -------------------------------------------------------
+#       Funciones de Mensajes 
+# -------------------------------------------------------
+msg(){ echo -p "${CYAN}==>${RESET} $1"; }
+ok(){ echo -p "${GREEN}[✔️] ${RESET}  $1"; }
+warn(){ echo -p "${YELLOW} [!]${RESET} $1"; }
+err(){ echo -p "${RED} [✖️] ${RESET} $1"; } 
+
+# --------------------------------------------------------
+#
+# --------------------------------------------------------
 
 
 #validar carpeta 
@@ -19,24 +31,30 @@ mkdir -p "$carpeta"
 
 
 # --------------------------------------------------------
-#         Funcionea Principales
+#         Funciones Principales
 # --------------------------------------------------------
-crear_nota() {
+crear_nota(){
+  msg "En proceso"
 
 }
 
-lista_notas() {
+lista_notas(){
+  msg "En proceso"
 
 }
 
-buscar_nota() {
+buscar_nota(){
+  msg "En proceso"
 
 }
 
-editar_nota() {
+editar_nota(){
+  msg "En proceso"
   
 }
-eliminar_nota() {
+
+eliminar_nota(){
+  msg "En proceso"
 
 }
 # --------------------------------------------------------
@@ -59,8 +77,8 @@ mostrar_menu() {
 
 while true; do
   mostrar_menu
-  read -p "Sjeleccione una opcion" opt 
-  case opt in
+  read -p "Seleccione una opcion" opt 
+  case $opt in
     1) crear_nota ;;
     2) lista_notas ;;
     3) buscar_nota ;;
@@ -70,7 +88,7 @@ while true; do
     *) err "opcion no valida." ;;
   esac
   
-  read -p "Precione enter para continuar..."
+  read -p "Presione enter para continuar..."
 
 done 
 
