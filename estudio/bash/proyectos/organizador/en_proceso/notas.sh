@@ -36,17 +36,9 @@ mkdir -p "$carpeta"
 # --------------------------------------------------------
 #         Funciones Principales
 # --------------------------------------------------------
-crear_nota(){
-  while true; do 
-    echo -e "${CYAN} ========================= ${RESET}"
-    echo -e "${MAGENTA}       Crear Nota    ${RESET}"   
-    echo -e "${CYAN} ========================= ${RESET}"
-
-    
-done
-
+crear_nota() {
+    nvim +"autocmd BufWritePre * call RenameWithTitle()"
 }
-
 lista_notas(){
   msg "En proceso"
 
