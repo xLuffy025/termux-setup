@@ -39,9 +39,11 @@ mkdir -p "$carpeta"
 crear_nota(){
   while true; do 
     echo -e "${CYAN} ========================= ${RESET}"
-    echo -e 
+    echo -e "${MAGENTA}       Crear Nota    ${RESET}"   
+    echo -e "${CYAN} ========================= ${RESET}"
+
     
-  msg "En proceso"
+done
 
 }
 
