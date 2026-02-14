@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+IFS=1'\n\t'
 
 # -------------------------------------------------------
 #       Colores
@@ -21,9 +23,19 @@ warn(){ echo -e "${AMARILLO} [!]${RESET} $1"; }
 err(){ echo -e "${ROJO} [✖️] ${RESET} $1"; } 
 
 # --------------------------------------------------------
-#
+#   FUNCIONES GENERALES
 # --------------------------------------------------------
+pausa(){
+  read -p "Presione Enter para continuar... "
+}
 
+cancelar_si_solicita() {
+  local valor="$1"
+  if [[ "$valor" == "0" ]]; then
+    return 1
+  fi 
+  return 0
+}
 
 #validar carpeta 
 DATA_DIR="~/nota"
@@ -37,10 +49,16 @@ mkdir -p "$carpeta"
 #         Funciones Principales
 # --------------------------------------------------------
 crear_nota() {
-    nvim +"autocmd BufWritePre * call RenameWithTitle()"
-}
-lista_notas(){
-  msg "En proceso"
+  read -p "Nombre de Titulo: " nota 
+
+# Validación de vacio
+    [[ -z "$nota"  ]] &&
+      err "El Titulo no puede estar vacío."
+    contine
+
+# Validación: caracteres permitidos
+    [[ ! "$nota" =~ ^ ]]
+
 
 }
 
