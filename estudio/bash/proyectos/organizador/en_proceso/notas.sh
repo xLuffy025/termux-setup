@@ -3,19 +3,22 @@
 # -------------------------------------------------------
 #       Colores
 # -------------------------------------------------------
-GREEN="\033[1;32m"
-YELLOW="\033[1;33m"
-CYAN="\033[1;36m"
-RED="\033[1;31m"
-RESET="\033[1;0m"
+VERDE="\e[32m"
+AMARILLO="\e[33m"
+CYAN="\e[36m"
+ROJO="\e[31m"
+AZUL="\e[34m"
+MAGENTA="\e[35m"
+BLANCO="\e[97m"
+RESET="\e[0m"
 
 # -------------------------------------------------------
 #       Funciones de Mensajes 
 # -------------------------------------------------------
-msg(){ echo -p "${CYAN}==>${RESET} $1"; }
-ok(){ echo -p "${GREEN}[✔️] ${RESET}  $1"; }
-warn(){ echo -p "${YELLOW} [!]${RESET} $1"; }
-err(){ echo -p "${RED} [✖️] ${RESET} $1"; } 
+msg(){ echo -e "${CYAN}==>${RESET} $1"; }
+ok(){ echo -e "${VERDE}[✔️] ${RESET}  $1"; }
+warn(){ echo -e "${AMARILLO} [!]${RESET} $1"; }
+err(){ echo -e "${ROJO} [✖️] ${RESET} $1"; } 
 
 # --------------------------------------------------------
 #
@@ -23,8 +26,8 @@ err(){ echo -p "${RED} [✖️] ${RESET} $1"; }
 
 
 #validar carpeta 
-carpeta=~/nota
-archivo=$carpeta/
+DATA_DIR="~/nota"
+NOTA_MD="$DATA_DIR/nota.md"
 # Crear carpeta si no existe 
 mkdir -p "$carpeta"
 
@@ -34,6 +37,10 @@ mkdir -p "$carpeta"
 #         Funciones Principales
 # --------------------------------------------------------
 crear_nota(){
+  while true; do 
+    echo -e "${CYAN} ========================= ${RESET}"
+    echo -e 
+    
   msg "En proceso"
 
 }
@@ -77,7 +84,7 @@ mostrar_menu() {
 
 while true; do
   mostrar_menu
-  read -p "Seleccione una opcion" opt 
+  read -p "Seleccione una opcion: " opt 
   case $opt in
     1) crear_nota ;;
     2) lista_notas ;;
@@ -88,7 +95,7 @@ while true; do
     *) err "opcion no valida." ;;
   esac
   
-  read -p "Presione enter para continuar..."
+  read -p "Presione Enter para continuar..."
 
 done 
 
