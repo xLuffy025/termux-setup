@@ -40,8 +40,12 @@ cancelar_si_solicita() {
 #validar carpeta 
 DATA_DIR="~/nota"
 NOTA_MD="$DATA_DIR/nota.md"
-# Crear carpeta si no existe 
-#mkdir -p "$carpeta"
+
+
+# Cr_fcrear_nota() {
+   # nvim +"autocmd BufWritePre * call RenameWithTitle()"
+#}ear carpeta si no existe 
+mkdir -p "$DATA_DIR"
 
 
 
@@ -49,20 +53,25 @@ NOTA_MD="$DATA_DIR/nota.md"
 #         Funciones Principales
 # --------------------------------------------------------
 crear_nota() {
+
   read -p "Nombre de Titulo: " nota 
 
 # Validación de vacio
-    [[ -z "$nota"  ]] &&
-      err "El Titulo no puede estar vacío." &&
-      contine
+  [[ -z "$nota"  ]] && 
+    err "El Titulo no puede estar vacío." && 
+    continue
 
 # Validación: caracteres permitidos
-    [[ ! "$nota" =~ ^[A-Za-z0-9_]+$ ]] &&
-      err "Solo letras/números/_ " &&
-      continue
+  [[ ! "$nota" =~ ^[A-Za-z0-9_]+$ ]] &&
+    err "Solo letras/números/_ " &&
+    continue
 
 
 
+}
+
+lista_notas() {
+  msg "En proceso.."
 }
 
 buscar_nota(){
