@@ -37,14 +37,6 @@ cancelar_si_solicita() {
   return 0
 }
 
-#validar carpeta 
-#DATA_DIR="~/nota"
-#NOTA_MD="$DATA_DIR/nota.md"
-
-
-# Crear carpeta si no existe 
-#mkdir -p "$DATA_DIR"
-
 # --------------------------------------------------------
 #         Funciones Principales
 # --------------------------------------------------------
@@ -64,10 +56,23 @@ crear_nota() {
     continue
 
   # Validación: existencia previa 
-    grep -q "^$TITLE," DATA_DIR
+  #  grep -q "^$TITLE," DATA_DIR
 
 
+  #validar carpeta 
+  dir="$HOME/nota"
+  filename="$dir/{$nota}.md"
+  title="$nota"
 
+  # Crear carpeta si no existe 
+  mkdir -p "$dir"
+
+
+  echo "# $title" > "$filename"
+
+  nvim "$filename"
+
+done
 }
 
 lista_notas() {
