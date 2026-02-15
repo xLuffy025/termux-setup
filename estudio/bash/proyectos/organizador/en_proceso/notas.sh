@@ -5,22 +5,22 @@ IFS=1'\n\t'
 # -------------------------------------------------------
 #       Colores
 # -------------------------------------------------------
-VERDE="\e[32m"
-AMARILLO="\e[33m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
 CYAN="\e[36m"
-ROJO="\e[31m"
-AZUL="\e[34m"
+RED="\e[31m"
+BLUE="\e[34m"
 MAGENTA="\e[35m"
-BLANCO="\e[97m"
+WHITE="\e[97m"
 RESET="\e[0m"
 
 # -------------------------------------------------------
 #       Funciones de Mensajes 
 # -------------------------------------------------------
 msg(){ echo -e "${CYAN}==>${RESET} $1"; }
-ok(){ echo -e "${VERDE}[✔️] ${RESET}  $1"; }
-warn(){ echo -e "${AMARILLO} [!]${RESET} $1"; }
-err(){ echo -e "${ROJO} [✖️] ${RESET} $1"; } 
+ok(){ echo -e "${GREEN}[✔️] ${RESET}  $1"; }
+warn(){ echo -e "${YELLOW} [!]${RESET} $1"; }
+err(){ echo -e "${RED} [✖️] ${RESET} $1"; } 
 
 # --------------------------------------------------------
 #   FUNCIONES GENERALES
@@ -41,7 +41,7 @@ cancelar_si_solicita() {
 DATA_DIR="~/nota"
 NOTA_MD="$DATA_DIR/nota.md"
 # Crear carpeta si no existe 
-mkdir -p "$carpeta"
+#mkdir -p "$carpeta"
 
 
 
@@ -53,11 +53,14 @@ crear_nota() {
 
 # Validación de vacio
     [[ -z "$nota"  ]] &&
-      err "El Titulo no puede estar vacío."
-    contine
+      err "El Titulo no puede estar vacío." &&
+      contine
 
 # Validación: caracteres permitidos
-    [[ ! "$nota" =~ ^ ]]
+    [[ ! "$nota" =~ ^[A-Za-z0-9_]+$ ]] &&
+      err "Solo letras/números/_ " &&
+      continue
+
 
 
 }
@@ -82,7 +85,7 @@ eliminar_nota(){
 mostrar_menu() {
   clear 
   echo -e "${CYAN}╔═══════════════════════════════════════╗${RESET}"
-  echo -e "${CYAN}║     🚀   Notas Mackdown               ║${RESET}"
+  echo -e "${CYAN}║ 🚀 ${MAGENTA}Notas Mackdown ${RESET} ${CYAN}                    ║${RESET}"
   echo -e "${CYAN}╚═══════════════════════════════════════╝${RESET}"
   echo -e "${YELLOW}1)${RESET} Crear Nota" 
   echo -e "${YELLOW}2)${RESET} Listar Notas"
