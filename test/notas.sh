@@ -18,9 +18,9 @@ RESET="\e[0m"
 #       Funciones de Mensajes 
 # -------------------------------------------------------
 msg(){ echo -e "${CYAN}==>${RESET} $1"; }
-ok(){ echo -e "${GREEN}[✔️] ${RESET}  $1"; }
+ok(){ echo -e "${GREEN}[✔️]  ${RESET}  $1"; }
 warn(){ echo -e "${YELLOW} [!]${RESET} $1"; }
-err(){ echo -e "${RED} [✖️] ${RESET} $1"; } 
+err(){ echo -e "${RED} [✖️]  ${RESET} $1"; } 
 
 # --------------------------------------------------------
 #   FUNCIONES GENERALES
@@ -38,33 +38,33 @@ cancelar_si_solicita() {
 }
 
 #validar carpeta 
-DATA_DIR="~/nota"
-NOTA_MD="$DATA_DIR/nota.md"
+#DATA_DIR="~/nota"
+#NOTA_MD="$DATA_DIR/nota.md"
 
 
-# Cr_fcrear_nota() {
-   # nvim +"autocmd BufWritePre * call RenameWithTitle()"
-#}ear carpeta si no existe 
-mkdir -p "$DATA_DIR"
-
-
+# Crear carpeta si no existe 
+#mkdir -p "$DATA_DIR"
 
 # --------------------------------------------------------
 #         Funciones Principales
 # --------------------------------------------------------
 crear_nota() {
-
-  read -p "Nombre de Titulo: " nota 
-
-# Validación de vacio
-  [[ -z "$nota"  ]] && 
+  while true; do 
+    read -p "Nombre de Titulo: " nota 
+    cancelar_si_solicita "$nota" || return 0
+    
+  # Validación: no vacio
+    [[ -z "$nota"  ]] && 
     err "El Titulo no puede estar vacío." && 
     continue
 
-# Validación: caracteres permitidos
-  [[ ! "$nota" =~ ^[A-Za-z0-9_]+$ ]] &&
+  # Validación: caracteres permitidos
+    [[ ! "$nota" =~ ^[A-Za-z0-9_]+$ ]] &&
     err "Solo letras/números/_ " &&
     continue
+
+  # Validación: existencia previa 
+    grep -q "^$TITLE," DATA_DIR
 
 
 
