@@ -5,6 +5,16 @@ IFS=$'\n\t'
 # ==========================================
 #   FUNCIÓN: GENERAR REPORTE HTML
 # ==========================================
+escape_html() { 
+     local s="$1" 
+     s="${s//&/&amp;}" 
+     s="${s//</&lt;}" 
+     s="${s//>/&gt;}" 
+     s="${s//\"/&quot;}" 
+     s="${s//\'/&#39;}" 
+     echo "$s" 
+ } 
+ 
 clear
 titulo "Generar Reporte HTML"
 
@@ -17,11 +27,9 @@ escape_html() {
 }
 
 # Escribir encabezado HTML
-cat > "$archivo" << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
+cat > "$archivo" <<'HTML_HEADER' 
+<html><head>
+   <meta charset="UTF-8">
     <title>Reporte Caja de Ahorro</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
