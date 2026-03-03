@@ -52,7 +52,7 @@ consultar_historial() {
 #   FUNCIÓN: GENERAR REPORTE HTML
 # ==========================================
 generar_reporte() {
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/core/reporte-general.sh"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/core/reporte_general.sh"
 }
 
 # ==========================================
