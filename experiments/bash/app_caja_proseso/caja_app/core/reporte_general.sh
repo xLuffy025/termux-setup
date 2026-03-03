@@ -1,5 +1,5 @@
-#1!/usr/bin/env bash
-set -eou pipefail
+#!/usr/bin/env bash
+set -euo pipefail
 IFS=$'\n\t'
 
 # ==========================================
@@ -77,6 +77,6 @@ IFS=$'\n\t'
 
     echo "</body></html>" >> "$archivo"
 
-    echo -e "\e[1;32mReporte generado exitosamente:\e[0m"
+    msg "Reporte generado exitosamente:"
     echo -e "\e[1;36m$archivo\e[0m"
     sleep 3
