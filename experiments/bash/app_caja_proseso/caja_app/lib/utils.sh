@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eou pipefail
+set -euo pipefail
 IFS=$'\n\t'
 
 SEPARADOR="===================================="
@@ -13,7 +13,7 @@ VERDE="\e[32m"
 AMARILLO="\e[33m"
 AZUL="\e[34m"
 MAGENTA="\e[35m"
-CYAN="\e[36m":
+CYAN="\e[36m"
 BLANCO="\e[97m"
 # ---------------------------------------------------
 # Funciones de mensajes 
