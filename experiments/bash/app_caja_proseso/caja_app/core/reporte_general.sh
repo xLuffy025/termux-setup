@@ -1,5 +1,5 @@
-#1!/usr/bin/env bash
-set -eou pipefail
+#!/usr/bin/env bash
+set -euo pipefail
 IFS=$'\n\t'
 
 # ==========================================
@@ -7,9 +7,9 @@ IFS=$'\n\t'
 # ==========================================
 # ==========================================
     clear
-    echo -e "\e[1;32m=== GENERAR REPORTE HTML ===\e[0m"
+    titulo="Generar Reporte HTML"
 
-    fecha_reporte=$(date +"%Y-%m-%d_%H:%M:%S")
+    fecha_reporte=$(date +"%Y-%m-%d-%H-%M")
     archivo="$REPORTES_DIR/reporte_${fecha_reporte}.html"
 
     echo "<html><head>
@@ -77,6 +77,6 @@ IFS=$'\n\t'
 
     echo "</body></html>" >> "$archivo"
 
-    echo -e "\e[1;32mReporte generado exitosamente:\e[0m"
+    msg "Reporte generado exitosamente:"
     echo -e "\e[1;36m$archivo\e[0m"
     sleep 3
