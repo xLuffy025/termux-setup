@@ -7,9 +7,9 @@ IFS=$'\n\t'
 # ==========================================
 # ==========================================
     clear
-    echo -e "\e[1;32m=== GENERAR REPORTE HTML ===\e[0m"
+    titulo="Generar Reporte HTML"
 
-    fecha_reporte=$(date +"%Y-%m-%d_%H:%M:%S")
+    fecha_reporte=$(date +"%Y-%m-%d-%H-%M")
     archivo="$REPORTES_DIR/reporte_${fecha_reporte}.html"
 
     echo "<html><head>
