@@ -1,82 +1,119 @@
 #!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
+LC_NUMERIC=C
 
 # ==========================================
 #   FUNCIÓN: GENERAR REPORTE HTML
 # ==========================================
-# ==========================================
-    clear
-    titulo="Generar Reporte HTML"
+# Requisitos: source config.sh previamente (REPORTES_DIR, USUARIO_DIR, LISTA_USUARIOS)
+: "${REPORTES_DIR:?REPORTES_DIR no definido en config.sh}"
+: "${USUARIO_DIR:?USUARIO_DIR no definido en config.sh}"
+LISTA="${LISTA_USUARIOS:-$USUARIO_DIR/lista_usuarios.csv}"
 
-    fecha_reporte=$(date +"%Y-%m-%d-%H-%M")
-    archivo="$REPORTES_DIR/reporte_${fecha_reporte}.html"
+if [[ ! -r "$LISTA" ]]; then
+  printf 'ERROR: no se puede leer %s\n' "$LISTA" >&2
+  exit 1
+fi
 
-    echo "<html><head>
-    <meta charset='UTF-8'>
-    <title>Reporte Caja de Ahorro</title>
-    <style>
-        body { font-family: Arial; background: #f4f4f4; padding: 20px; }
-        h1 { color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #999; padding: 8px; text-align: center; }
-        th { background: #333; color: white; }
-        .verde { background: #c8f7c5; }
-        .rojo { background: #f7c5c5; }
-        .azul { background: #c5d8f7; }
-    </style>
-    </head><body>" > "$archivo"
+# Limpiar pantalla sólo si es TTY
+if [[ -t 1 ]]; then clear; fi
+titulo="Generar Reporte HTML"
 
-    echo "<h1>Reporte Caja de Ahorro</h1>" >> "$archivo"
-    echo "<p>Generado el: <b>$fecha_reporte</b></p>" >> "$archivo"
+fecha_reporte=$(date +"%Y-%m-%d-%H-%M")
+archivo="$REPORTES_DIR/reporte_${fecha_reporte}.html"
 
-    echo "<table>
-        <tr>
-            <th>Socio</th>
-            <th>Fecha de entrega</th>
-            <th>Total aportado</th>
-            <th>Aportaciones</th>
-            <th>Última aportación</th>
-        </tr>" >> "$archivo"
+escape_html() {
+  local s=${1:-}
+  s=${s//&/&amp;}
+  s=${s//</&lt;}
+  s=${s//>/&gt;}
+  s=${s//\"/&quot;}
+  s=${s//\'/&#39;}
+  printf '%s' "$s"
+}
 
-    total_general=0
+cat > "$archivo" <<'HTML'
+<html><head>
+<meta charset='UTF-8'>
+<title>Reporte Caja de Ahorro</title>
+<style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    h1 { color: #333; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #999; padding: 8px; text-align: center; }
+    th { background: #333; color: white; }
+    .verde { background: #c8f7c5; }
+    .rojo { background: #f7c5c5; }
+    .azul { background: #c5d8f7; }
+</style>
+</head><body>
+HTML
 
-    while IFS=',' read -r socio fecha_entrega resto; do
-        archivo_socio="$USUARIO_DIR/$socio/registros.csv"
+printf '<h1>Reporte Caja de Ahorro</h1>\n' >> "$archivo"
+printf '<p>Generado el: <b>%s</b></p>\n' "$fecha_reporte" >> "$archivo"
 
-        aportaciones=0
-        ultima="N/A"
+cat >> "$archivo" <<'HTML'
+<table>
+    <tr>
+        <th>Socio</th>
+        <th>Fecha de entrega</th>
+        <th>Total aportado</th>
+        <th>Aportaciones</th>
+        <th>Última aportación</th>
+    </tr>
+HTML
 
-        if [[ -s "$archivo_socio" ]]; then
-            while IFS=',' read -r f m e; do
-                total_socio=$(echo "$total_socio + $m" | bc)
-                aportaciones=$((aportaciones + 1))
-                ultima="$f"
-            done < "$archivo_socio"
+total_general="0.00"
 
-            clase="verde"
-        else
-            clase="rojo"
-        fi
+# Leer lista de usuarios (ignora vacías/comentarios)
+while IFS=',' read -r socio fecha_entrega _ || [[ -n "${socio:-}" ]]; do
+    # saltar vacíos o comentarios
+    [[ -z "${socio// /}" || "${socio:0:1}" == "#" ]] && continue
 
-        total_general=$(echo "$total_general + $total_socio" | bc)
+    socio_trimmed="$(echo "$socio" | xargs)"
+    archivo_socio="$USUARIO_DIR/$socio_trimmed/registros.csv"
 
-        echo "<tr class='$clase'>
-                <td>$socio</td>
-                <td class='azul'>$fecha_entrega</td>
-                <td>$total_socio</td>
-                <td>$aportaciones</td>
-                <td>$ultima</td>
-              </tr>" >> "$archivo"
+    total_socio="0.00"
+    aportaciones=0
+    ultima="N/A"
+    clase="rojo"
 
-    done < "$USUARIO_DIR/lista_usuarios.csv"
+    if [[ -s "$archivo_socio" ]]; then
+        # sumar columna monto (se asume columna 3: fecha,socio,monto,evidencia)
+        total_socio=$(awk -F',' 'NF && $3 ~ /[0-9]/ {sum += $3} END {printf "%.2f", sum+0}' "$archivo_socio")
+        aportaciones=$(awk -F',' 'NF && $3 ~ /[0-9]/ {n++} END {print (n+0)}' "$archivo_socio")
+        ultima=$(awk -F',' 'NF {last=$1} END {print (last=="" ? "N/A" : last)}' "$archivo_socio")
+        clase="verde"
+    fi
 
-    echo "</table>" >> "$archivo"
+    total_general=$(awk -v a="$total_general" -v b="$total_socio" 'BEGIN{printf "%.2f", a + b}')
 
-    echo "<h2>Total general del grupo: $total_general</h2>" >> "$archivo"
+    s_esc=$(escape_html "$socio_trimmed")
+    f_esc=$(escape_html "${fecha_entrega:-N/A}")
+    ultima_esc=$(escape_html "$ultima")
 
-    echo "</body></html>" >> "$archivo"
+    cat >> "$archivo" <<ROW
+    <tr class="${clase}">
+        <td>${s_esc}</td>
+        <td class='azul'>${f_esc}</td>
+        <td>${total_socio}</td>
+        <td>${aportaciones}</td>
+        <td>${ultima_esc}</td>
+    </tr>
+ROW
 
-    msg "Reporte generado exitosamente:"
-    echo -e "\e[1;36m$archivo\e[0m"
-    sleep 3
+done < "$LISTA"
+
+cat >> "$archivo" <<HTML
+</table>
+<h2>Total general del grupo: ${total_general}</h2>
+</body></html>
+HTML
+
+# Mensaje final usando la utilidad msg (de utils.sh)
+if command -v msg >/dev/null 2>&1; then
+  msg "Reporte generado exitosamente:"
+fi
+printf '\e[1;36m%s\e[0m\n' "$archivo"
+# no dormir por defecto (útil para cron/CI
