@@ -13,7 +13,7 @@ VERDE="\e[32m"
 AMARILLO="\e[33m"
 AZUL="\e[34m"
 MAGENTA="\e[35m"
-CYAN="\e[36m"
+CYAN="\e[36m":
 BLANCO="\e[97m"
 # ---------------------------------------------------
 # Funciones de mensajes 
@@ -88,7 +88,7 @@ linea_simple() {
   printf "%b-------------------------------------%b\n" "$CYAN" "$RESET"
 }
 titulo() {
-  if [[ -t 1 ]]; then clear; fi
+  clear 
   linea
 
   local ancho_menu=${#SEPARADOR}
@@ -101,3 +101,35 @@ titulo() {
   # Imprime el texto centrado con color 
   printf "%b%*s%b\n" "$MAGENTA" $padding "$texto" "$RESET"
 
+  linea
+}
+
+
+item_menu() {
+  # Guarda los parámetros que le pasamos a ls fúncion 
+  local num="$1"
+  local texto="$2"
+
+  # Definimos el azul como color por defecto para los números
+  local color_num="$AZUL"
+
+  # Condicional para cambiar en opciones especiales 
+  if [[ "$num" == "7" ]]; then 
+    color_num="$AMARILLO"
+  elif [[ "$num" == "0" ]]; then  
+    color_num="$ROJO"
+  fi 
+
+  # Imprimimos la linea formateada usando printf 
+  printf "%b%s)%b %s\n" "$color_num" "$num" "$RESET" "$texto"
+
+}
+mostrar_datos() {
+  # Imprime datos en formatos "Etiqueta: Valor" con alineación
+  local etiqueta="$1"
+  local valor="$2"
+
+  # %-12s le dice a bash: "Ocupare 12 espacios de alineados a la izquierda"
+  # Esto hace que todas las etiquetas terminen en la misma columna.
+  printf "%b%-12s%b %s\n" "$CYAN" "$etiqueta" "$RESET" "$valor"
+}
