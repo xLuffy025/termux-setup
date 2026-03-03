@@ -7,18 +7,18 @@ LC_NUMERIC=C
 #   FUNCIÓN: GENERAR REPORTE HTML
 # ==========================================
 # Requisitos: source config.sh previamente (REPORTES_DIR, USUARIO_DIR, LISTA_USUARIOS)
-: "${REPORTES_DIR:?REPORTES_DIR no definido en config.sh}"
-: "${USUARIO_DIR:?USUARIO_DIR no definido en config.sh}"
-LISTA="${LISTA_USUARIOS:-$USUARIO_DIR/lista_usuarios.csv}"
+#: "${REPORTES_DIR:?REPORTES_DIR no definido en config.sh}"
+#: "${USUARIO_DIR:?USUARIO_DIR no definido en config.sh}"
+#LISTA="${LISTA_USUARIOS:-$USUARIO_DIR/lista_usuarios.csv}"
 
-if [[ ! -r "$LISTA" ]]; then
-  printf 'ERROR: no se puede leer %s\n' "$LISTA" >&2
-  exit 1
-fi
+#if [[ ! -r "$LISTA" ]]; then
+#  printf 'ERROR: no se puede leer %s\n' "$LISTA" >&2
+#  exit 1
+#fi
 
 # Limpiar pantalla sólo si es TTY
-if [[ -t 1 ]]; then clear; fi
-titulo="Generar Reporte HTML"
+#if [[ -t 1 ]]; then clear; fi
+titulo "Generar Reporte HTML"
 
 fecha_reporte=$(date +"%Y-%m-%d-%H-%M")
 archivo="$REPORTES_DIR/reporte_${fecha_reporte}.html"
@@ -50,8 +50,8 @@ cat > "$archivo" <<'HTML'
 </head><body>
 HTML
 
-printf '<h1>Reporte Caja de Ahorro</h1>\n' >> "$archivo"
-printf '<p>Generado el: <b>%s</b></p>\n' "$fecha_reporte" >> "$archivo"
+echo "<h1>Reporte Caja de Ahorro</h1>" >> "$archivo"
+echo "<p>Generado el: <b>$fecha_reporte</b></p>" >> "$archivo"
 
 cat >> "$archivo" <<'HTML'
 <table>
@@ -103,7 +103,7 @@ while IFS=',' read -r socio fecha_entrega _ || [[ -n "${socio:-}" ]]; do
     </tr>
 ROW
 
-done < "$LISTA"
+done < "$USUARIO_DIR/lista_usuarios.csv"
 
 cat >> "$archivo" <<HTML
 </table>
