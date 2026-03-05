@@ -8,9 +8,19 @@ while true; do
     clear 
     titulo "Enviar reporte individual"
 
-    cut -d',' -f1 "$USUARIO_DIR/lista_usuarios.csv"
+    confirmar_socios
+
+   # cut -d',' -f1 "$USUARIO_DIR/lista_usuarios.csv"
 
     read -r -p "Nombre corto del socio: " socio
+
+    if [[ ! "$opcion" =~ ^[1-9]+$ ]] || ((opcion > ${#socios[@]})); then
+      err "Error: Selección inválida."
+      pausa
+      return 0 
+    fi 
+
+    socio="${socios[$((opcion -1))]}"    
 
     [[ "$socio" == "0" ]] && return 
 
@@ -138,14 +148,12 @@ while true; do
   }
 
   clear
-  echo -e "${CYAN}===========================${RESET}"
-  echo -e "${MAGENTA}=== ENVÍO POR WHATSAPP ===${RESET}"
-  echo -e "${CYAN}===========================${RESET}"
-  echo "1) Enviar mensaje individual"
-  echo "2) Enviar reporte a todos los socios"
-  echo "3) Probar conexion"
-  echo -e "${ROJO}(0 para cancelar)${RESET}"
-  read -p "Solicitar una opción: " opcion
+  titulo "ENVÍO POR WHATSAPP"
+  item_menu "1" "Enviar mensaje individual"
+  item_menu "2" "Enviar reporte a todos los socios"
+  item_menu "3" "Probar conexion"
+  msg "(0 para cancelar)"
+  read -r -p "Solicitar una opción: " opcion
   cancelar_si_solicita "$opcion" || return 0
 
   case "$opcion" in 

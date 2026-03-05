@@ -33,7 +33,7 @@ archivo="$USUARIO_DIR/$socio/registros.csv"
 # 3. Validar si tiene registros
 # -----------------------------------------
 if [[ ! -s "$archivo" ]]; then
-  echo -e "\e[1;33mEl socio '$socio' no tiene aportaciones registradas.\e[0m"
+  warn "El socio '$socio' no tiene aportaciones registradas."
   sleep 3
   return 
 fi
