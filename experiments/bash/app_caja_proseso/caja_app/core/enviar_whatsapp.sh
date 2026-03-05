@@ -150,6 +150,5 @@ case "opt" in
   0) return ;;
   *) msg "Opción inválida."; sleep 1 ;;
 esac 
-
-
-
+break 
+done
