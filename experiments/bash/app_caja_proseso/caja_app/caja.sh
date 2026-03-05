@@ -94,7 +94,7 @@ generar_reporte_individual() {
 #   FUNCIÓN: ENVIAR POR WHATSAPP
 # ==========================================
 enviar_whatsapp() {
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/core/reporte_general.sh" 
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/core/enviar_whatsapp.sh" 
 }
 #  while true; do 
 #    clear
