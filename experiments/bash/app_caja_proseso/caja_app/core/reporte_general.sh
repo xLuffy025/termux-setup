@@ -11,7 +11,7 @@ LC_NUMERIC=C
 LISTA="${LISTA_USUARIOS:-$USUARIO_DIR/lista_usuarios.csv}"
 
 if [[ ! -r "$LISTA" ]]; then
-  printf 'ERROR: no se puede leer %s\n' "$LISTA" >&2
+  err "ERROR: no se puede leer" "$LISTA" >&2
   exit 1
 fi
 
@@ -19,7 +19,7 @@ fi
 [[ -t 1 ]] && clear
 titulo="Generar Reporte HTML"
 
-fecha_reporte=$(date +"%Y-%m-%d-%H-%M")
+fecha_reporte=$(date +"%Y-%m-%d_%H-%M")
 archivo="$REPORTES_DIR/reporte_${fecha_reporte}.html"
 
 escape_html() {

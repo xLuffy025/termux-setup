@@ -59,35 +59,35 @@ generar_reporte() {
 #   FUNCIÓN: REPORTE INDIVIDUAL 
 # ==========================================
 generar_reporte_individual() {
+  while true; do 
     clear
-    echo -e "\e[1;36m=== REPORTE INDIVIDUAL ===\e[0m"
+    titulo "Reporte Individual"
 
-    # -----------------------------------------
-    # 1. Verificar si hay socios registrados
-    # -----------------------------------------
-    if [[ ! -s "$USUARIO_DIR/lista_usuarios.csv" ]]; then
-        echo -e "\e[1;31mNo hay socios registrados.\e[0m"
-        sleep 2
-        return
-    fi
-
-    echo -e "\e[1;36mSocios disponibles:\e[0m"
-    nl -w2 -s") " "$USUARIO_DIR/lista_usuarios.csv" | cut -d',' -f1
+    confirmar_socios 
+    
 
     # -----------------------------------------
     # 2. Seleccionar socio
     # -----------------------------------------
-    echo ""
-    read -p "Ingrese el nombre corto del socio: " socio
+    while true; do 
+      echo ""
+      read -r -p "Seleccione el numero del socio: " opcion
+      cancelar_si_solicita "$opcion" || return 0 
 
-    if ! grep -E "^$socio," "$USUARIO_DIR/lista_usuarios.csv" >/dev/null 2>&1; then
-        echo -e "\e[1;31mError: El socio no existe.\e[0m"
-        sleep 2
-        return
-    fi
-    
-    bash lib/reporte_individual.sh "$socio"
+      if [[ ! "$opcion" =~ ^[1-9]+$ ]] || ((opcion > ${#socios[@]})); then 
+        err "Error: Selección invalida."
+        pausa
+        return 0 
+      fi 
+
+      socio="${socios[$((opcion -1))]}"
+      break 
+    done 
+
+    bash core/reporte_individual.sh "$socio"
     pausa
+    break 
+  done
 }
 
 # ==========================================
@@ -124,7 +124,7 @@ enviar_whatsapp() {
       sleep 2
       return
     fi 
-    
+     
     if [[ "$archivo" == "ERROR_SOCIO" || -z "$archivo" ]]; then
         echo "Error al generar el reporte."
         sleep 2
