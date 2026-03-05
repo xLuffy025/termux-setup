@@ -55,12 +55,27 @@ confirmar() {
   fi
 }
 
+# -------------------------------------------------------
+# Sincronización de Git - para enviar_whatsapp
+# -------------------------------------------------------
 sinc_github() {
-  commit=$1 
+  local commit_msg="${1:-Actualización WhatsApp}"
 
-  git pull 
-  git add .
-  git commit -m "$1"
+  # Validación: verificar que estamos en un repo git
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then 
+    err "Error: No estamos en un repositorio git"
+    return 1
+  fi 
+
+  msg "Sincronizando repositorio..."
+
+  # Ejecutar comandos git 
+
+  git pull || warn "Error al hacer pull, continuar..."
+  git add . || { err "Error al hacer add"; return 1; }
+  git commit -m "$commit_msg" || warn "No hay cambios para hacer commit"
+
+  ok "Sincronización completa"
 }
 
 # -------------------------------------------------------
