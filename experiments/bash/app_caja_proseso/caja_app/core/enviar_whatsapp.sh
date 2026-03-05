@@ -10,7 +10,7 @@ while true; do
 
     cut -d',' -f1 "$USUARIO_DIR/lista_usuarios.csv"
 
-    read -r -p "Nombre corto del socio" socio
+    read -r -p "Nombre corto del socio: " socio
 
     [[ "$socio" == "0" ]] && return 
 
@@ -24,9 +24,9 @@ while true; do
 
     archivo=$(./reporte_individual.sh "$socio")
 
-    if [[ ! -f "archivo" ]]; then
-      err "Error: el achivo no existe o la ruta es inválida."
-      printf "Ruta recibida: $archivo"
+    if [[ ! -f "$archivo" ]]; then
+      err "Error: el archivo no existe o la ruta es inválida."
+      printf "Ruta recibida: %s\n" "$archivo"
       sleep 2
       return
     fi 
@@ -41,13 +41,13 @@ while true; do
 
     if [[ ! -f "$archivo" ]]; then
       err "Error: el archivo no existe."
-      printf "Ruta recibida: $archivo"
+      printf "Ruta recibida: %s\n" "$archivo"
       return
     fi 
 
     if [[ ! -d "$REPO_GITHUB_REPORTES" ]]; then
       err "Error: la carpeta destino no existe."
-      printf "Ruta esperada: $REPO_GITHUB_REPORTES"
+      printf "Ruta esperada: %s\n" "$REPO_GITHUB_REPORTES"
       return 
     fi 
     
@@ -57,30 +57,31 @@ while true; do
     sinc_github "Reporte enviado a $socio por WhatsApp"
 
     nombre_archivo=$(basename "$archivo")
-    link"https://xluffy025.github.io/caja-2026-reportes/reportes/$nombre_archivo"
+    link="https://xluffy025.github.io/caja-2026-reportes/reportes/$nombre_archivo"
 
-    mensaje="Hola $socio, aqui esta tu estado de cuenta: $link"
+    mensaje="Hola $socio, aquí está tu estado de cuenta: $link"
     enviar_whatsapp_link "$tel" "$mensaje"
 
     cd - >/dev/null 2>&1
   }
 
-  enviar_reporte_todos() {
+  enviar_reportes_todos() {
     clear 
     titulo "Enviar reporte a todos los Socios"
-    confirmar 
+    read -p "¿Continuar? (s/n): " resp
+    [[ "$resp" != "s" && "$resp" != "S" ]] && return
 
     REPO=~/caja-2026-reportes 
     mkdir -p "$REPO/reportes"
 
     while IFS=',' read -r socio fecha clave tel resto; do 
-      [[ -z "$socio" || $socio == "socio" ]] && continue
+      [[ -z "$socio" || "$socio" == "socio" ]] && continue
 
       echo "Procesando: $socio"
       
       archivo=$(./reporte_individual.sh "$socio")
 
-      if [[ "$archivo" == "ERROR_SOCIO" || -Z "$archivo" ]]; then
+      if [[ "$archivo" == "ERROR_SOCIO" || -z "$archivo" ]]; then
         err "Error, se omite."
         continue 
       fi 
@@ -94,61 +95,64 @@ while true; do
 
       if [[ -n "$tel" ]]; then
         enviar_whatsapp_link "$tel" "$mensaje"
-        else 
-          err " No hay teléfono registrado."
-        fi
+      else 
+        err "No hay teléfono registrado."
+      fi
 
-        echo
+      echo
 
-      done < "$USUARIO_DIR/lista_usuarios.csv"
+    done < "$USUARIO_DIR/lista_usuarios.csv"
 
-      sinc_github "Reportes masivos actualizados"
+    cd "$REPO" || return
+    git pull
+    git add .
+    git commit -m "Reportes masivos actualizados" >/dev/null 2>&1
+    git push >/dev/null 2>&1
+    cd - >/dev/null 2>&1
 
-      msg "Todos los reportes fueron generados y enviados."
-      pausa
-    }
-
-    # Detectar entorno
-    if grep -qi "android" /proc/version; then 
-      OPEN_URL="termux-open-url"
-    elif 
-      grep -qi "microsft" /proc/version; then 
-      OPEN_URL="wslview"
-    else 
-      OPEN_URL="xdg-open"
-    fi 
-
-    enviar_whatsapp_link() {
-      tel="$1"
-      mensaje="$2"
-      url="https://wa.me/52$tel?text=$mensaje"
-      msg "Abriendo WhatsApp Web..."
-      $OPEN_URL "$url"
-      
-    }
-
-  probar_conexion_whatsapp() {
-    titulo "Abriendo WhatsApp Web..."
-    sleep 1
-    $OPEN_URL "https://wa.me/528996750548?text=Prueba%20de%20conexion"
+    echo "Todos los reportes fueron generados y enviados."
+    read -p "Enter para continuar..."
   }
 
-clear
-titulo "Envío por WhatsApp"
-item_menu "1" "Enviar mensaje individual"
-item_menu "2" "Enviar reporte a todo los socios"
-item_menu "3" "Provar conexion"
-item_menu "0" "Cancelar"
-read -r -p "Selecione una opcion (1/2/3/0)" opt
-linea_simple
-cancelar_si_solicita "$opt" || return 0 
+  # Detectar entorno
+  if grep -qi "android" /proc/version; then
+    OPEN_URL="termux-open-url"
+  elif grep -qi "microsoft" /proc/version; then
+    OPEN_URL="wslview"
+  else
+    OPEN_URL="xdg-open"
+  fi
 
-case "opt" in 
-  1) enviar_reporte_individual ;;
-  2) enviar_reporte_todos ;;
-  3) probar_conexion_whatsapp ;;
-  0) return ;;
-  *) msg "Opción inválida."; sleep 1 ;;
-esac 
-break 
+  enviar_whatsapp_link() {
+    tel="$1"
+    mensaje="$2"
+    url="https://wa.me/52$tel?text=$(printf '%s' "$mensaje" | sed 's/ /%20/g')"
+    echo "Abriendo WhatsApp Web..."
+    $OPEN_URL "$url"
+  }
+
+  probar_conexion_whatsapp() {
+    echo -e "${VERDE}Abriendo WhatsApp Web...${RESET}"
+    sleep 1 
+    $OPEN_URL "https://wa.me/528996750648?text=Prueba%20de%20conexion"
+  }
+
+  clear
+  echo -e "${CYAN}===========================${RESET}"
+  echo -e "${MAGENTA}=== ENVÍO POR WHATSAPP ===${RESET}"
+  echo -e "${CYAN}===========================${RESET}"
+  echo "1) Enviar mensaje individual"
+  echo "2) Enviar reporte a todos los socios"
+  echo "3) Probar conexion"
+  echo -e "${ROJO}(0 para cancelar)${RESET}"
+  read -p "Solicitar una opción: " opcion
+  cancelar_si_solicita "$opcion" || return 0
+
+  case "$opcion" in 
+    1) enviar_reporte_individual ;;  
+    2) enviar_reportes_todos ;;  
+    3) probar_conexion_whatsapp ;;  
+    0) return;;
+    *) echo -e "${ROJO}Opción inválida.${RESET}"; sleep 1 ;;
+  esac
 done
