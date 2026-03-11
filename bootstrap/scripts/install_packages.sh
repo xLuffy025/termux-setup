@@ -29,13 +29,19 @@ install_base_packages() {
 
   case "$PKG" in
     pkg)
-      pkg update -y && pkg upgrade -y
-      pkg install -y git curl wget zsh vim neovim tmux python nodejs \
-        proot-distro openssh termux-api build-essential clang make jq unzip tar \
+      pkg update -y && pkg upgrade -y 
+      pkg install git zsh tmux starship \
+        clang make cmake ninja \
+        python python-pip nodejs \
+        rust golang php ruby \
+        ripgrep fd eza bat lsd bc htop ranger ncdu jq \
+        openssh rsync rclone curl wget \
+        proot proot-distro \
+        neovim vim termux-api build-essential unzip tar \
         ripgrep fd tree htop rsync ncdu nmap net-tools || warn "Algunos paquetes fallaron."
       ;;
 
-    apt)
+    apt)-
       $SUDO apt update -y
       $SUDO apt install -y git curl wget zsh vim neovim tmux python3 python3-pip \
         nodejs npm build-essential jq unzip tar ripgrep fd-find tree htop rsync ncdu nmap || warn "Algunos paquetes fallaron."
